@@ -1,0 +1,49 @@
+{% extends "ticketapp/header.html" %}
+
+{% block content %}
+<div class="main-logged-in">
+  {% include 'ticketapp/topbar.html' %}
+  <div class="row">
+  <div class=" buses_list col-12">
+    <div class="header">
+      <h1>Buses List</h1>
+      <a href="#"><i class="bi bi-plus-lg"></i> Add new Bus</a>
+    </div>  
+    {% if buses_list %}
+    <table>
+      <thead>
+        <tr>
+          <td>ID</td>
+          <td>Bus name</td>
+          <td>Plate number</td>
+          <td>Capacity</td>
+          <td>Brand</td>
+        </tr>
+      </thead> 
+     
+      <tbody>
+        {% for bus in buses_list %}
+        <tr>
+          <td>{{bus.bus_id}}</td>
+          <td><a href="{{ bus.get_absolute_url }}">{{ bus.bus_name }}</a></td>
+          <td> {{bus.plate_number}}</td>
+          <td> {{bus.numberofseats}} </td>
+          <td>{{bus.brand}}</td>
+          <td>{{schedule.schedule_date}}</td>
+          <td>{{schedule.bus}}</td>
+          <td>{{schedule.driver}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>     
+      {% else %}
+        <p>no Buses available registered yet</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+</div>
+
+
+  
+{% endblock %}

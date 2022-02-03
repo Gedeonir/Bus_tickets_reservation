@@ -1,0 +1,56 @@
+{% extends 'ticketapp/header.html' %}
+{% block content %}
+ <div class="about-section mb-3 p-2">
+     <div class="row">
+         <div class="col-lg-8 col-sm-12">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <h1>why you should consider working with us</h1>
+                </div>
+                <div class="contact-form col-12 m-2 py-2 bg-white">
+                    <h1> suggestions box</h1>
+                    <form action="" method="post" class="d-block p-2 mb-3">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        <div class="mb-1 d-block">
+                            <p>{{ form.subject.errors }}</p>
+                            <label for="{{ form.subject.id_for_label }}">Subject:</label>
+                            {{ form.subject }}
+                        </div>
+                        <div class="mb-1 d-block">
+                            <p>{{ form.email.errors }}</p>
+                            <label for="{{ form.sender.id_for_label }}">Your email:</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="mb-1 d-block">
+                            <p>{{ form.message.errors }}</p>
+                            <label for="{{ form.message.id_for_label }}">Your message:</label>
+                            <span>{{ form.message }}</span>
+                        </div>
+                        <div class="mb-1 d-flex">
+                            <p>{{ form.cc_myself.errors }}</p>
+                            
+                            <label for="{{ form.cc_myself.id_for_label }}">{{ form.cc_myself}} CC yourself?</label>
+                            
+                        </div>
+                        <button type="submit" class="btn btn-success">send</button>
+                    </form>
+                    
+                </div>
+                <div class="contact-info col-12">
+                    <h1>Find us on:</h1>
+                    <i class="bi bi-building"> MUHANGA TOWN,SM 300 ST </i>
+                    <i class="bi bi-telephone-fill"> +250780689938</i>
+                    <i class="bi bi-envelope"> irafasha.jedy12@gmail.com</i>
+
+                </div>
+            </div>
+         </div>
+         <div class="col-lg-4 col-sm-12">
+            <h1>faq</h1>
+         </div>
+     </div>
+ </div>
+
+    
+{% endblock content %}

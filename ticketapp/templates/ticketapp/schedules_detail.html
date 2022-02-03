@@ -1,0 +1,52 @@
+{% extends "ticketapp/header.html" %}
+
+{% block content %}
+<div class="main-logged-in">
+  {% include 'ticketapp/topbar.html' %}
+  <div class="schedules_details">
+    <div class="header">
+        <h1>{{ schedules.starting_point }}-{{schedules.destination}}</h1>
+    </div>
+    <div class="d-lg-flex border-bottom">
+        <div class="d-block m-2 w-100">
+          <div class="d-flex">
+            <p class="card-text">orgin:</p> 
+            <p class="card-data">{{schedules.starting_point }}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text">Destination:</p>
+            <p class="card-data"> {{ schedules.destination }}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text">Price: </p>
+            <p class="card-data">{{ schedules.price }}RF</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text">Departing time:</p>
+            <p class="card-data">{{ schedules.departing_time }}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text">Estimated Arrival time:</p>
+            <p class="card-data"> {{ schedules.estimated_arrival_time}}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text">Date:</p> 
+            <p class="card-data">{{schedules.schedule_date }}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text">Bus:</p>
+            <p class="card-data"> {{ schedules.bus}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="links d-flex p-2 m-2">
+        <a href="#" class="btn  m-2"> <i class="bi bi-pencil-square"></i>Edit</a>
+        <a href="#" class="btn  m-2"><i class="bi bi-trash"></i>Delete</a>
+        <a href="#" class="btn  m-2"><i class="bi bi-save2"></i>Save</a>
+      </div>
+     
+  </div>
+  {% include 'ticketapp/footer.html' %}
+</div>
+
+{% endblock %}

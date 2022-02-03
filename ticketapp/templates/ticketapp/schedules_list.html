@@ -1,0 +1,51 @@
+{% extends "ticketapp/header.html" %}
+
+{% block content %}
+<div class="main-logged-in">
+  {% include 'ticketapp/topbar.html' %}
+    <div class="row">
+      <div class="schedules_list col-12">
+        <div class="header">
+          <h1>schedules list</h1>
+          <a href=""><i class="bi bi-plus-lg"></i> Add new</a>
+        </div>
+          {% if schedules_list %}
+          <table>
+            <thead>
+              <tr>
+                <td>ID</td>
+                <td>Schedule</td>
+                <td>Price</td>
+                <td>Departing time</td>
+                <td>Estmated arrival time</td>
+                <td>Date</td>
+                <td>Bus</td>
+                <td>Driver</td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for schedule in schedules_list %}
+              <tr>
+                <td>{{schedule.schedule_id}}</td>
+                <td><a href="{{ schedule.get_absolute_url }}">{{ schedule.starting_point }}-{{schedule.destination}}</a></td>
+                <td> {{schedule.price}} RF </td>
+                <td> {{schedule.departing_time}} </td>
+                <td>{{schedule.estimated_arrival_time}}</td>
+                <td>{{schedule.schedule_date}}</td>
+                <td>{{schedule.bus}}</td>
+                <td>{{schedule.driver}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+            <p>There are no schedules available</p>
+          {% endif %}
+      </div>
+    </div>
+    {% include 'ticketapp/footer.html' %}
+</div>
+
+
+  
+{% endblock %}

@@ -1,0 +1,204 @@
+{% extends 'ticketapp/header.html' %}
+{% block content %}
+
+    {% if user.is_authenticated %}
+    <div class="main-logged-in d-sm-block">
+      {% include 'ticketapp/topbar.html' %}
+
+      <div class="cardbox d-lg-flex d-sm-block">
+        <div class="card">
+          <div>
+            <div class="numbers">1000</div>
+            <div class="card-name">Daily views</div>
+          </div>
+          <div class="icon">
+            <i class="bi bi-eye"></i>
+          </div>
+        </div>
+        <div class="card">
+          <div>
+            <div class="numbers">{{num_of_bookings}} </div>
+            <div class="card-name">Bookings</div>
+          </div>
+          <div class="icon"><i class="bi bi-book"></i></div>
+        </div>
+        <div class="card">
+          <div>
+            <div class="numbers">1000</div>
+            <div class="card-name">Earnings</div>
+          </div>
+          <div class="icon"><i class="bi bi-cash-stack"></i></div>
+        </div>
+        <div class="card">
+          <div>
+            <div class="numbers"> {{num_of_payements}} </div>
+            <div class="card-name">Tickets Sold</div>
+          </div>
+          <div class="icon"><i class="bi bi-ticket-perforated"></i></i></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="recent-bookings border-bottom col-lg-7 col-sm-12">
+          <div class="header">
+            <h1>Recent Bookings</h1>
+            <a href="">view all</a>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <td>Schedule</td>
+                <td>Price</td>
+                <td>No of tickets</td>
+                <td>Status</td>
+                <td>Payement</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Muhanga-Kigali</td>
+                <td>1030RF</td>
+                <td>3</td>
+                <td>Booked</td>
+                <td>Paid</td>
+
+              </tr>
+              <tr>
+                <td>Muhanga-Kigali</td>
+                <td>1030RF</td>
+                <td>3</td>
+                <td>Booked</td>
+                <td>Paid</td>
+
+              </tr>
+              <tr>
+                <td>Muhanga-Kigali</td>
+                <td>1030RF</td>
+                <td>3</td>
+                <td>Booked</td>
+                <td>Paid</td>
+
+              </tr>
+              <tr>
+                <td>Muhanga-Kigali</td>
+                <td>1030RF</td>
+                <td>3</td>
+                <td>Booked</td>
+                <td>Paid</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div> 
+        <div class="recent-customers col-lg-5 col-sm-12">
+          <div class="header">
+            <h1>Recent Passengers</h1>
+          </div>
+          <ul>
+            <li>
+              <div class="profile-image">
+                {% load static %} <img src="{% static 'ticketapp/media/Logo.png' %}" alt="logo">
+              </div>
+              <div class="profile-name d-block">
+                <label class="name">Muzafaru</label>
+                <label class="email-address">Email address</label>
+              </div>
+              
+            </li>
+            <li>
+              <div class="profile-image">
+                {% load static %} <img src="{% static 'ticketapp/media/Logo.png' %}" alt="logo">
+              </div>
+              <div class="profile-name d-block">
+                <label class="name">Muzafaru</label>
+                <label class="email-address">Email address</label>
+              </div>
+              
+            </li>
+            <li>
+              <div class="profile-image">
+                {% load static %} <img src="{% static 'ticketapp/media/Logo.png' %}" alt="logo">
+              </div>
+              <div class="profile-name d-block">
+                <label class="name">Muzafaru</label>
+                <label class="email-address">Email address</label>
+              </div>
+              
+            </li>
+            <li>
+              <div class="profile-image">
+                {% load static %} <img src="{% static 'ticketapp/media/Logo.png' %}" alt="logo">
+              </div>
+              <div class="profile-name d-block">
+                <label class="name">Muzafaru</label>
+                <label class="email-address">Email address</label>
+              </div>
+              
+            </li>
+            <li>
+              <div class="profile-image">
+                {% load static %} <img src="{% static 'ticketapp/media/Logo.png' %}" alt="logo">
+              </div>
+              <div class="profile-name d-block">
+                <label class="name">Muzafaru</label>
+                <label class="email-address">Email address</label>
+              </div>
+              
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    {% else %}
+    <div class="main-logged-out d-lg-flex">
+      <div class="description-section">
+        <div class="row">
+          
+          <div class="col col-12 d-block">
+          <h4 class="border-bottom">Special offers</h4>
+            
+          </div>
+          
+          <div class="col col-12 d-block">
+            <h4 class="border-bottom">Payements methods</h4>
+            <div class="d-lg-flex d-sm-block">
+            <span class="fs-4">{% load static %} <img src="{% static 'ticketapp/media/visa.png' %}" alt="visa_logo"</span>
+            <span class="fs-4">{% load static %} <img src="{% static 'ticketapp/media/MTN-MOMO.png' %}" alt="MTN-MOMO_logo"</span>
+            <span class="fs-4">{% load static %} <img src="{% static 'ticketapp/media/airtel_money.png' %}" alt="airtel_money_logo"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="trips-section">
+        <h1> popular trips</h1>  
+        <div class="row">
+          <div class="col col-6">
+              <h3 class="border-bottom"><i class="bi bi-geo-alt m-2"></i>Rwanda</h3>
+            {% if favorite_trips %}
+            {% for trip in favorite_trips %}
+            
+              <div class="trip d-flex">
+                  <p>{{trip.schedule_id}}. {{ trip.starting_point }} - {{ trip.destination }} </p>
+                  <a href="" >{{trip.price}}FR</a>
+              </div>
+              {% endfor %}
+              {%else%}
+              <p>No trips Available</p>
+              {% endif %}
+            <a href="" class="load-more text-danger">Load more</a>
+          </div>
+          
+          
+          
+        </div>
+      </div>  
+    </div>
+  
+  {% comment %} <p align="center">You have visited this page {{ num_of_visits }} time{{ num_of_visits|pluralize }}.</p>
+  {% include 'ticketapp/footer.html' %}     {% endcomment %}
+    {% endif %} 
+    {% include 'ticketapp/footer.html' %}
+{% endblock content%}
+
+

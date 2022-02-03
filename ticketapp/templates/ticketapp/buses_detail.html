@@ -1,0 +1,37 @@
+{% extends "ticketapp/header.html" %}
+
+{% block content %}
+<div class="main-logged-in">
+  {% include 'ticketapp/topbar.html' %}
+  <div class="buses-detail">
+    <div class="header">
+        <h1 class="text-center">Bus info's</h1>
+    </div>
+        <div class="d-block m-2 w-100">
+          <div class="d-lg-flex d-sm-block">
+            <p class="card-text">Bus Type:</p> 
+            <p class="card-data">{{buses.bus_name }}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text">Plate number:</p>
+            <p class="card-data"> {{ buses.plate_number }}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text">Capacity: </p>
+            <p class="card-data">{{ buses.numberofseats }} Seats</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text">Brand:</p>
+            <p class="card-data">{{ buses.brand }}</p>
+          </div>
+        </div>
+      <div class="links d-lg-flex p-2 m-2">
+        <a href="#" class="btn  m-2"> <i class="bi bi-pencil-square"></i>Edit</a>
+        <a href="#" class="btn  m-2"><i class="bi bi-trash"></i>Delete</a>
+        <a href="#" class="btn  m-2"><i class="bi bi-save2"></i>Save</a>
+      </div>
+  </div>
+</div>
+
+  
+{% endblock %}

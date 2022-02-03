@@ -1,0 +1,44 @@
+{% extends 'ticketapp/header.html' %}
+{% block content %}
+<div class="signup_form mb-3 " style="width:80%; margin-left:auto; margin-right:auto; box-shadow: 0 0 9px #000;padding:12px; border-radius:2%">
+  <form action="" method="post" class="form d-block mb-3" style="width:80%; margin-left:auto;margin-right:auto">
+          {% csrf_token %}
+            <h1 class="text-center border-bottom p-3 bg-success" style="font-size:16px; color:white; text-transform:uppercase">Create a new account</h1>
+            {{ success }}
+            <div class="mb-3">
+                <label for="exampleInputFullnames" class="form-label">Full names</label>
+                <input name="names" type="text" class="form-control" id="exampleInputFirstname" required>
+            </div>
+              
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputContact" class="form-label">Telephone number</label>
+              <input name="name" type="text" class="form-control" id="exampleContact" required>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputNationality" class="form-label">Username</label>
+                <input name="username" type="text" class="form-control" id="exampleInputNationality" required>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input name="password" type="password" class="form-control" id="exampleInputPassword1" required>
+                <i class="fas fa-eye"></i>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputConfirmPassword1" class="form-label">Confirm Password</label>
+                <input name="confirmpassword" type="password" class="form-control" id="exampleInputPassword1" required> 
+                <i class="fas fa-eye"></i>
+              </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">By clicking this you Accept to our <a href="#" class="text-muted">Terms and conditions</a></label><br>
+              <p>Already have an account?<a href="{% url 'login' %}" class="link text-muted">Log in</a></p>
+            </div>
+            <button type="submit" class="btn btn-success">Create account</button>
+          </form>
+</div>
+{% endblock %}

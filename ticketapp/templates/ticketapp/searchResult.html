@@ -1,0 +1,41 @@
+
+{% extends 'ticketapp/header.html' %}
+{% block content %}
+<div class="results d-block">
+  {% for row in buses_list %}
+  <div class="title d-flex border-bottom p-2">
+    <span> Trip: </span>
+    <span>{{row.starting_point}}> </span>
+    <span>{{row.destination }}</span>
+  </div>
+  <div class="schedules_list">
+    <table class="table table-striped" >
+      <thead>
+
+      <td>BUS</td>
+      <td>SOURCE</td>
+      <td>DESTINATION</td>
+      <td>PRICE</td>
+      <td>DATE</td>
+      <td>DEPARTING TIME</td>
+      <td>ESTMATED ARRIVAL TIME</td>
+  
+      </thead>
+     
+     <tr>
+          <td>{{ row.bus }}</td>
+          <td>{{ row.starting_point }}</td>
+          <td>{{ row.destination }}</td>
+          <td>{{ row.price }} RF</td>
+          <td>{{ row.schedule_date }} </td>
+          <td>{{ row.departing_time }}</td>
+          <td>{{ row.estimated_arrival_time }}</td>
+  
+  
+      </tr>
+      
+  </table>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

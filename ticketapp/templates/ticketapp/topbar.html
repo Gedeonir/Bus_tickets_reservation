@@ -1,0 +1,18 @@
+<div class="topbar d-lg-flex border-bottom">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"><ion-icon name="menu-outline"></ion-icon></span>
+    </button>
+    <div class="search">
+      <label>
+        <input type="text" placeholder="search" required><ion-icon name="search-outline"></ion-icon>
+      </label>
+    </div>
+    <div class="user d-flex">
+      <a href="#"><i class="bi bi-person-circle"></i></a> 
+      <a href=""><i class="bi bi-chat-fill"></i></a> 
+      <a href=""><i class="bi bi-bell-fill"></i></a>
+      <a href=" {% url 'logout' %}"><i class="bi bi-box-arrow-in-left"></i></a>
+      
+     
+    </div>
+  </div>
