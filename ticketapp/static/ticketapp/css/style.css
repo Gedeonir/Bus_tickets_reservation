@@ -31,7 +31,7 @@ body{
   background:var(--darkblue) ;
   border-left:10px solid var(--darkblue) ;
   transition: 0.5s;
-  overflow: hidden;
+  overflow: scroll;
   left: 0;
 }
 .sidebar.active{
@@ -58,6 +58,7 @@ body{
 .sidebar ul li:nth-child(1){
   margin-bottom: 10px;
   pointer-events: none;
+  border-bottom: 1px solid white;
 }
 .sidebar ul li a{
   position: relative;
@@ -128,7 +129,6 @@ nav .navbar-brand img{
   border-radius: 50%;
 }
 nav .navbar-toggler i{
-  color: #0b8457;
   width: 100%;
   height: 100%;
   font-size:66px;
@@ -149,7 +149,7 @@ nav .collapse ul li{
   padding: 5px;
   margin-bottom: 5px;
   margin-left: 12px;
-  text-align: right;
+  text-align: center;
   font-weight: 900;
 
 }
@@ -159,6 +159,7 @@ nav .collapse ul li a{
 nav .collapse ul li a:hover{
     border-bottom:2px solid #900c27;
     color: #260c1a;
+    transition: 0.5s;
 }
 
 .search-section{
@@ -220,6 +221,7 @@ nav .collapse ul li a:hover{
   min-height: 100vh;
   background: var(--white);
   transition: 0.5s;
+  padding-left: 6px;
 }
 
 .main-logged-in.active{
@@ -343,7 +345,6 @@ grid-gap: 10px;
 }
  
 .recent-bookings,
-.recent-customers,
 .schedules_list,
 .schedules_details,
 .buses_list,
@@ -354,7 +355,11 @@ grid-gap: 10px;
   box-shadow: 0 7px 25px rgb(0,0,0,0.08);
   border-radius: 20px;
   margin-bottom: 20px;
+  width: 100%;
   
+}
+.recent-customers{
+  width: 300px !important;
 }
 .schedules_list{
   height: 100% !important;
@@ -388,12 +393,14 @@ grid-gap: 10px;
   color: var(--white);
   border-radius: 10px;
   border: 1px solid var(--white);
+  font-size:1.0em;
 }
 .header a:hover{
   background: var(--white);
   color: var(--darkblue);
   border: 1px solid var(--darkblue);
   transition: 0.6s;
+  
 }
 .main-logged-in table{
   width: 100%;
@@ -402,6 +409,7 @@ grid-gap: 10px;
   padding: 10px;
   margin-bottom: 5px;
 }
+
 .main-logged-in table thead td{
   font-weight: 800;
   text-transform: uppercase;
@@ -448,15 +456,17 @@ grid-gap: 10px;
   justify-content: center;
   width: 100%;
 }
-.links a{
+.links a, .buttons{
   background: var(--darkblue);
   color: var(--white); 
   border: 1px solid var(--darkblue);
   padding: 10px;
-  width: 100%;
+  width: 200px;
   text-transform: uppercase;
+  display: flex;
+  justify-content: space-around;
 }
-.links a:hover{
+.links a:hover,.buttons:hover{
   background: var(--white);
   transition: 0.5s;
   color: var(--darkblue);
@@ -487,8 +497,8 @@ grid-gap: 10px;
   width:100%;
   height: 100%;
   margin-right: auto;
-  border-radius: 5%;
-  box-shadow: 0 0 9px #000; 
+  border-radius: 20px;
+  box-shadow: -3px 3px 3px; 
 }
 .trips-section h1, .col h3,h4{
   font-size: 20px;
@@ -512,6 +522,15 @@ grid-gap: 10px;
   color: white;
   transition: 1s;
   
+}
+.trips-section .row .col .trip a:hover span{
+  display: none;
+}
+.trips-section .row .col .trip a p {
+  display: none;
+}
+.trips-section .row .col .trip a:hover p{
+  display: block;
 }
 .trips-section .col .load-more{
   margin-bottom: 12px;

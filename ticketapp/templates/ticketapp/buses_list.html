@@ -7,7 +7,7 @@
   <div class=" buses_list col-12">
     <div class="header">
       <h1>Buses List</h1>
-      <a href="#"><i class="bi bi-plus-lg"></i> Add new Bus</a>
+      <a href="{% url 'bus-create' %}"><i class="bi bi-plus-lg"></i> Add new Bus</a>
     </div>  
     {% if buses_list %}
     <table>

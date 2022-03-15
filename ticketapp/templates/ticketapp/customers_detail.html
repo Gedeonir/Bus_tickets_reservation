@@ -1,0 +1,55 @@
+{% extends "ticketapp/header.html" %}
+
+{% block content %}
+<div class="main-logged-in">
+  {% include 'ticketapp/topbar.html' %}
+  <div class="schedules_details">
+    <div class="header">
+        <h1>Customers details</h1>
+    </div>
+    <div class="d-lg-flex border-bottom">
+        <div class="d-block m-2 w-100">
+          <div class="d-flex">
+            <p class="card-text p-2">Unique id:</p> 
+            <p class="card-data p-2">{{customers.customer_id }}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text p-2">Firstname:</p> 
+            <p class="card-data p-2">{{customers.firstname }}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text p-2">lastname:</p> 
+            <p class="card-data p-2">{{customers.lastname }}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text p-2">Email:</p>
+            <p class="card-data p-2"> {{ customers.email }}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text p-2">contacts: </p>
+            <p class="card-data p-2">{{ customers.contacts }}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text p-2">gender:</p>
+            <p class="card-data p-2"> {{customers.gender}} </p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text p-2">Username:</p>
+            <p class="card-data p-2"> {{ customers.username}}</p>
+          </div>
+          <div class="d-flex">
+            <p class="card-text p-2">password:</p> 
+            <p class="card-data p-2">{{customers.password }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="links d-flex p-2 m-2">
+        <a href="{% url 'customer-update' customers.customer_id %}" class="btn  m-2"> <i class="bi bi-pencil-square"></i>Edit</a>
+        <a href="{% url 'customer-delete' customers.customer_id %}" class="btn  m-2"><i class="bi bi-trash"></i>Delete</a>
+      </div>
+     
+  </div>
+  {% include 'ticketapp/footer.html' %}
+</div>
+
+{% endblock %}

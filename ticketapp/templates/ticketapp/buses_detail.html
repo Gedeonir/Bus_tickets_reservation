@@ -26,9 +26,8 @@
           </div>
         </div>
       <div class="links d-lg-flex p-2 m-2">
-        <a href="#" class="btn  m-2"> <i class="bi bi-pencil-square"></i>Edit</a>
-        <a href="#" class="btn  m-2"><i class="bi bi-trash"></i>Delete</a>
-        <a href="#" class="btn  m-2"><i class="bi bi-save2"></i>Save</a>
+        <a href=" {% url 'bus-update' buses.bus_id %}" class="btn  m-2"> <i class="bi bi-pencil-square"></i>Edit</a>
+        <a href="{% url 'bus-delete' buses.bus_id%}" class="btn  m-2"><i class="bi bi-trash"></i>Delete</a>
       </div>
   </div>
 </div>

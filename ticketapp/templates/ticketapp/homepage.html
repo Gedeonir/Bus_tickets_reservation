@@ -42,111 +42,35 @@
         <div class="recent-bookings border-bottom col-lg-7 col-sm-12">
           <div class="header">
             <h1>Recent Bookings</h1>
-            <a href="">view all</a>
+            <a href="{% url 'booking-list' %}">view all</a>
           </div>
+          {% if recent_bookings %}
           <table>
             <thead>
               <tr>
-                <td>Schedule</td>
-                <td>Price</td>
-                <td>No of tickets</td>
+                <td>Passenger Email</td>
+                <td>schedule</td>
+                <td>Tickets</td>
+                <td>Amount paid</td>
                 <td>Status</td>
-                <td>Payement</td>
               </tr>
             </thead>
             <tbody>
+              {% for booking in recent_bookings %}
               <tr>
-                <td>Muhanga-Kigali</td>
-                <td>1030RF</td>
-                <td>3</td>
-                <td>Booked</td>
-                <td>Paid</td>
-
+                <td><a href="{{ booking.get_absolute_url }}">{{booking.customer}}</a></td>
+                <td> {{booking.schedule}} </td>
+                <td>{{booking.tickets}}</td>
+                <td>{{booking.total_amount_to_pay}}</td>
+                <td>{{booking.status}}</td>
               </tr>
-              <tr>
-                <td>Muhanga-Kigali</td>
-                <td>1030RF</td>
-                <td>3</td>
-                <td>Booked</td>
-                <td>Paid</td>
-
-              </tr>
-              <tr>
-                <td>Muhanga-Kigali</td>
-                <td>1030RF</td>
-                <td>3</td>
-                <td>Booked</td>
-                <td>Paid</td>
-
-              </tr>
-              <tr>
-                <td>Muhanga-Kigali</td>
-                <td>1030RF</td>
-                <td>3</td>
-                <td>Booked</td>
-                <td>Paid</td>
-
-              </tr>
+              {% endfor %}
             </tbody>
           </table>
+          {% else %}
+            <p>No booking made yet</p>
+          {% endif %}
         </div> 
-        <div class="recent-customers col-lg-5 col-sm-12">
-          <div class="header">
-            <h1>Recent Passengers</h1>
-          </div>
-          <ul>
-            <li>
-              <div class="profile-image">
-                {% load static %} <img src="{% static 'ticketapp/media/Logo.png' %}" alt="logo">
-              </div>
-              <div class="profile-name d-block">
-                <label class="name">Muzafaru</label>
-                <label class="email-address">Email address</label>
-              </div>
-              
-            </li>
-            <li>
-              <div class="profile-image">
-                {% load static %} <img src="{% static 'ticketapp/media/Logo.png' %}" alt="logo">
-              </div>
-              <div class="profile-name d-block">
-                <label class="name">Muzafaru</label>
-                <label class="email-address">Email address</label>
-              </div>
-              
-            </li>
-            <li>
-              <div class="profile-image">
-                {% load static %} <img src="{% static 'ticketapp/media/Logo.png' %}" alt="logo">
-              </div>
-              <div class="profile-name d-block">
-                <label class="name">Muzafaru</label>
-                <label class="email-address">Email address</label>
-              </div>
-              
-            </li>
-            <li>
-              <div class="profile-image">
-                {% load static %} <img src="{% static 'ticketapp/media/Logo.png' %}" alt="logo">
-              </div>
-              <div class="profile-name d-block">
-                <label class="name">Muzafaru</label>
-                <label class="email-address">Email address</label>
-              </div>
-              
-            </li>
-            <li>
-              <div class="profile-image">
-                {% load static %} <img src="{% static 'ticketapp/media/Logo.png' %}" alt="logo">
-              </div>
-              <div class="profile-name d-block">
-                <label class="name">Muzafaru</label>
-                <label class="email-address">Email address</label>
-              </div>
-              
-            </li>
-          </ul>
-        </div>
       </div>
 
     {% else %}
@@ -180,13 +104,14 @@
             
               <div class="trip d-flex">
                   <p>{{trip.schedule_id}}. {{ trip.starting_point }} - {{ trip.destination }} </p>
-                  <a href="" >{{trip.price}}FR</a>
+                  <a href="{{ trip.get_absolute_url }}"><span>{{trip.price}}FR</span><p>Book Ticket</p></a>
               </div>
               {% endfor %}
+              <a href="{{ schedule.get_absolute_url }}" class="load-more text-danger">Load more</a>
               {%else%}
               <p>No trips Available</p>
               {% endif %}
-            <a href="" class="load-more text-danger">Load more</a>
+            
           </div>
           
           

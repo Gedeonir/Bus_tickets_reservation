@@ -1,0 +1,49 @@
+{% extends "ticketapp/header.html" %}
+
+{% block content %}
+<div class="main-logged-in">
+  {% include 'ticketapp/topbar.html' %}
+    <div class="row">
+      <div class="schedules_list col-12">
+        <div class="header">
+          <h1>customers</h1>
+          <div>
+            <a href=" {% url 'customer-create' %} "><i class="bi bi-plus-lg"></i> Add new</a>
+          </div>
+        </div>
+        
+        {% if customers_list %}
+        <table>
+          <thead>
+            <tr>
+              <td>full names</td>
+              <td>Email</td>
+              <td>contacts</td>
+              <td>username</td>
+              <td>password</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for customer in customers_list %}
+            <tr>
+              <td><a href="{{ customer.get_absolute_url }}">{{ customer.firstname }} &nbsp {{customer.lastname}}</a></td>
+              <td> {{customer.email}} </td>
+              <td> {{customer.contacts}} </td>
+              <td>{{customer.username}}</td>
+              <td>{{customer.password}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+          {% else %}
+            <p>No customer Registered  yet</p>
+          {% endif %}
+      </div>
+      
+    </div>
+    {% include 'ticketapp/footer.html' %}
+</div>
+
+
+  
+{% endblock %}

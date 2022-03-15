@@ -1,0 +1,46 @@
+{% extends "ticketapp/header.html" %}
+
+{% block content %}
+<div class="main-logged-in">
+  {% include 'ticketapp/topbar.html' %}
+  <div class="row">
+  <div class=" drivers_list col-12">
+    <div class="header">
+      <h1>drivers List</h1>
+      <a href="{% url 'driver-create' %}"><i class="bi bi-plus-lg"></i> Add new driver</a>
+    </div>  
+    {% if drivers_list %}
+    <table>
+      <thead>
+        <tr>
+          <td>ID</td>
+          <td>driver name</td>
+          <td>Email</td>
+          <td>Contact</td>
+          <td>Gender</td>
+        </tr>
+      </thead> 
+     
+      <tbody>
+        {% for driver in drivers_list %}
+        <tr>
+          <td>{{driver.driver_id}}</td>
+          <td><a href="{{ driver.get_absolute_url }}">{{ driver.driver_names }}</a></td>
+          <td> {{driver.email}}</td>
+          <td> {{driver.contact}} </td>
+          <td>{{driver.gender}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>     
+      {% else %}
+        <p>no Drivers registered yet</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+</div>
+
+
+  
+{% endblock %}

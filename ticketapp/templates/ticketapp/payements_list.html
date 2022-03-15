@@ -1,0 +1,55 @@
+{% extends "ticketapp/header.html" %}
+
+{% block content %}
+<div class="main-logged-in">
+  {% include 'ticketapp/topbar.html' %}
+    <div class="row">
+      <div class="payements_list col-12">
+        <div class="header">
+          <h1>payements list</h1>
+          <div>
+            <a href=" {% url 'payement-create' %} "><i class="bi bi-plus-lg"></i> Add new</a>
+          </div>
+        </div>
+        
+        {% if payements_list %}
+        <table>
+          <thead>
+            <tr>
+              <td>ID</td>
+              <td>payement</td>
+              <td>Price</td>
+              <td>Departing time</td>
+              <td>Estmated arrival time</td>
+              <td>Date</td>
+              <td>Bus</td>
+              <td>Driver</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for payement in payements_list %}
+            <tr>
+              <td>{{payement.payement_id}}</td>
+              <td><a href="{{ payement.get_absolute_url }}">{{ payement.starting_point }}-{{payement.destination}}</a></td>
+              <td> {{payement.price}} RF </td>
+              <td> {{payement.departing_time}} </td>
+              <td>{{payement.estimated_arrival_time}}</td>
+              <td>{{payement.payement_date}}</td>
+              <td>{{payement.bus}}</td>
+              <td>{{payement.driver}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+          {% else %}
+            <p>There are no payements available</p>
+          {% endif %}
+      </div>
+      
+    </div>
+    {% include 'ticketapp/footer.html' %}
+</div>
+
+
+  
+{% endblock %}

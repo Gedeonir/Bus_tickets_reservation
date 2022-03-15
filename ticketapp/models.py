@@ -19,6 +19,9 @@ class users(models.Model):
         return self.email
 
 
+class company(models.Model):
+    company_name = models.CharField(primary_key=True, max_length=200)
+
 class buses(models.Model):
     bus_id = models.AutoField(primary_key=True)
     bus_name = models.CharField(max_length=30)
@@ -27,7 +30,7 @@ class buses(models.Model):
     brand = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.plate_number
+        return str(self.plate_number)
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
@@ -43,7 +46,11 @@ class drivers(models.Model):
     email = models.EmailField()
 
     def __str__(self):
-        return self.email
+        return self.driver_names
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this book."""
+        return reverse('driver-detail', args=[str(self.driver_id)])  
 
 class schedules(models.Model):
     schedule_id = models.AutoField(primary_key=True)
@@ -52,14 +59,13 @@ class schedules(models.Model):
     departing_time = models.TimeField()
     estimated_arrival_time = models.TimeField()
     schedule_date = models.DateField()
-    remark = models.CharField(blank=True, max_length=200)
     bus = models.ForeignKey(buses,on_delete = models.CASCADE)
     driver = models.ForeignKey(drivers,on_delete=models.CASCADE)
-    user = models.ForeignKey(users,on_delete=models.CASCADE)
     price= models.CharField(max_length=200)
+    availableseats = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.starting_point + self.destination
+        return str(self.starting_point + self.destination)
   
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
@@ -67,31 +73,43 @@ class schedules(models.Model):
 
 
 class customers(models.Model):
-    customer_id = models.AutoField(primary_key=True)
-    full_names = models.CharField(max_length=100)
+    customer_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    firstname = models.CharField(max_length=100)
+    lastname = models.CharField(max_length=100)
     contacts = models.CharField(max_length=13)
+    gender = models.CharField(max_length=10)
     email = models.EmailField()
     username = models.CharField(max_length=50)
-    password = models.CharField(max_length=30)
+    password = models.CharField(max_length=30,default=12345)
 
     def __str__(self):
-        return self.email
+        return self.customer_id
+    
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this book."""
+        return reverse('customer-detail', args=[str(self.customer_id )])  
 
 class bookings(models.Model):
+    BOOKED = 'Booked'
+    CANCELLED = 'Cancel'
 
-    ticket_statuses= (('B','BOOKED'),
-                    ('C','CANCELLED'),)
+    ticket_statuses= ((BOOKED,'BOOKED'),
+                    (CANCELLED,'CANCELLED'),)
 
-    booking_id = models.AutoField(primary_key=True)
-    customer = models.ForeignKey(customers,on_delete=models.CASCADE)
+    booking_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    customer_email = models.EmailField()
     schedule = models.ForeignKey(schedules, on_delete=models.CASCADE)
     tickets = models.IntegerField(default=1)
-    departing_date = models.DateField()
-    departing_time = models.TimeField()
     total_amount_to_pay = models.CharField(max_length=30)
+    status = models.CharField(choices=ticket_statuses, default=BOOKED, max_length=14)
 
     def __str__(self):
         return self.booking_id
+
+    def get_absolute_url(self):
+        """Returns the url to access a detail record for this book."""
+        return reverse('booking-detail', args=[str(self.booking_id)])  
+
 
 
 class payements(models.Model):

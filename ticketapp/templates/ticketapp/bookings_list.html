@@ -1,0 +1,49 @@
+{% extends "ticketapp/header.html" %}
+
+{% block content %}
+<div class="main-logged-in">
+  {% include 'ticketapp/topbar.html' %}
+    <div class="row">
+      <div class="schedules_list col-12">
+        <div class="header">
+          <h1>bookings</h1>
+          <div>
+            <a href=" {% url 'booking-create' %} "><i class="bi bi-plus-lg"></i> Add new</a>
+          </div>
+        </div>
+        
+        {% if bookings_list %}
+        <table>
+          <thead>
+            <tr>
+              <td>Passenger Email</td>
+              <td>schedule</td>
+              <td>Tickets</td>
+              <td>Amount paid</td>
+              <td>Status</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for booking in bookings_list %}
+            <tr>
+              <td><a href="{{ booking.get_absolute_url }}">{{booking.customer}}</a></td>
+              <td> {{booking.schedule}} </td>
+              <td>{{booking.tickets}}</td>
+              <td>{{booking.total_amount_to_pay}}</td>
+              <td>{{booking.status}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+          {% else %}
+            <p>No booking made yet</p>
+          {% endif %}
+      </div>
+      
+    </div>
+    {% include 'ticketapp/footer.html' %}
+</div>
+
+
+  
+{% endblock %}

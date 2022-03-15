@@ -1,0 +1,15 @@
+{% extends "ticketapp/header.html" %}
+
+{% block content %}
+<div class="main-logged-in">
+  {% include 'ticketapp/topbar.html' %}
+  <h1>Delete schedule</h1>
+
+  <p>Are you sure you want to delete the schedule: {{ buses.bus_name}}-{{buses.plate_number}}?</p>
+
+  <form action="" method="POST">
+    {% csrf_token %}
+    <button type="submit" class="buttons"><i class="bi bi-trash"></i>Yes,delete</button>
+  </form>
+</div>
+{% endblock %}
