@@ -1,0 +1,251 @@
+{% extends 'ticketapp/base.html' %}
+{% block body %}
+<div class="banner">
+    <p class="error-text">{{error}}</p>
+    <form action="{% url 'searchbus' %}" method="post">
+        {% csrf_token %}
+        <div class="input-group">
+            <label for="from">From:</label>
+            <select name="origin" id="trip" class="inputField" >
+                {% if travel_schedules %}
+                <option></option>
+                {% for schedule in travel_schedules  %}
+                <option value="{{schedule.starting_point}}">{{schedule.starting_point}}</option>
+                {% endfor %}
+                {% endif %}
+                
+            </select>
+        </div>
+        {% comment %} <div class="exchange">
+            <i class="bi bi-arrow-left-right"></i>
+        </div> {% endcomment %}
+        <div class="input-group">
+            <label for="to">To:</label>
+            <select name="destination" id="trip" class="inputField">
+                <option></option>
+                {% if travel_schedules %}
+                {% for schedule in travel_schedules  %}
+                 <option value="{{schedule.destination}}">{{schedule.destination}}</option>
+                {% endfor %}
+                {% endif %}
+               
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="departure_date">Departure date:</label>
+            <input type="date" name="departure-date" class="inputField date" min='' required>
+        </div>
+        <div class="input-group">
+            <button type="submit" name="search">search</button>
+        </div>
+    </form>
+</div>
+{% if user.is_active %}
+<div class="special-offers">
+    <div class="title">
+        <h1>Special offers</h1>
+    </div>
+    <div class="cardbox">
+        <div class="card-trip">
+            <h2>MUHANGA-KIGALI</h2>
+            <a href="#">980 RF</a>
+        </div>
+        <div class="card-trip">
+            <h2>MUHANGA-KIGALI</h2>
+            <a href="#">980 RF</a>
+        </div>
+        <div class="card-trip">
+            <h2>MUHANGA-KIGALI</h2>
+            <a href="#">980 RF</a>
+        </div>
+        <div class="card-trip">
+            <h2>MUHANGA-KIGALI</h2>
+            <a href="#">980 RF</a>
+        </div>
+    </div>
+    
+</div>
+{% endif %}
+
+<div class="popular-trips">
+    <div class="title">
+        <h1>popular destinations</h1>
+    </div>
+    <div class="cardbox">
+        <div class="rwanda-card">
+            <div class="card-title">
+                <i class="bi bi-geo-alt"></i>
+                <h2>Rwanda</h2>
+            </div>
+            {% if popular_rwanda_trips %}
+            {% for trip in popular_rwanda_trips %}
+           
+            <div class="trip">
+                <div class="trip-info" >
+                    <label for="origin"> {{ trip.starting_point }} </label>
+                    <div class="arrows"> <i class="bi bi-arrow-right"></i></div>
+                    <label for="destination">{{trip.destination}}</label>
+                </div>
+                <div class="price">
+                    <a href="{{ trip.get_absolute_url }}">{{trip.price}}</a>
+                </div>
+                
+            </div>
+            {% endfor %}
+            <div class="trip-links"><a href=" {% url 'schedule-list' %} ">see more</a></div>
+            {% else %}
+            <p>There is no Popular trips yet</p>
+            {% endif %}
+        </div>
+        <div class="eac">
+            <div class="card-title">
+                <i class="bi bi-geo-alt"></i>
+                <h2>eac</h2>
+            </div>
+            {% if popular_eac_trips %}
+            {% for trip in popular_eac_trips %}
+           
+            <div class="trip">
+                <div class="trip-info" >
+                    <label for="origin">{{trip.starting_point}}</label>
+                    <div class="arrows"> <i class="bi bi-arrow-right"></i></div>
+                    <label for="destination">{{trip.destination}}</label>
+                </div>
+                <div class="price">
+                    <a href="{{ trip.get_absolute_url }}">{{trip.price}}</a>
+                </div>
+                
+            </div>            
+            {% endfor %}
+            <div class="trip-links"><a href="#">see more</a></div>
+            {% else %}
+            <p>There is no Popular trips yet</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="assurance">
+    <div class="title">
+        <h1>our assurance</h1>
+    </div>
+    <div class="cardbox">
+        <div class="card">
+            <div class="card-image">
+                {% load static %}
+                <img src="{% static 'media/pay.png' %}" alt="">
+            </div>
+            <h2>Secured payement</h2>
+            <p>highest security standards and keeps your information and purchases completely safe and secure.</p>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                {% load static %}
+                <img src="{% static 'media/pay.png' %}" alt="">
+            </div>
+            <h2>Flexibility</h2>
+            <p>book on operators offering Cancellation or Reschedule policy and make your plans as flexible as you like.</p>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                {% load static %}
+                <img src="{% static 'media/pay.png' %}" alt="">
+            </div>
+            <h2>multiple choice</h2>
+            <p>130+ transport companies and 4000+ Routes across the country</p>
+        </div>
+        <div class="card">
+            <div class="card-image">
+                {% load static %}
+                <img src="{% static 'media/pay.png' %}" alt="">
+            </div>
+            <h2>M-TICKETS</h2>
+            <p>Mobile-Ticket SMS is enough for travelling. Go paperless and travel smart.</p>
+        </div>
+    </div>
+</div>
+<div class="statistics">
+    <div class="title">
+        <h1>Statistics</h1>
+    </div>
+    <div class="cardbox">
+        <div class="card">
+            <div class="statistics-number">
+                <p>2 m</p>
+                <label for="customers">customers</label>
+            </div>
+            <p>trusted by over 2 million happy customers globally</p>
+        </div>
+        <div class="card">
+            <div class="statistics-number">
+                <p>50</p>
+                <label for="companies">companies</label>
+            </div>
+            <p>network of over 50 bus operators locally</p>
+        </div>
+        <div class="card">
+            <div class="statistics-number">
+                <p>300+ k</p>
+                <label for="tickets">tickets</label>
+            </div>
+            <p>over 300 tickets booked so far</p>
+        </div>
+    </div>
+
+</div>
+<div class="presence-info">
+    <div class="presence">
+        <div class="title">
+            <h1>OUR global presence</h1>
+        </div>
+        <div class="cardbox">
+            <div class="card">
+                <div class="card-image">
+                    {% load static %}
+                    <img src="{% static 'media/download.png' %}" alt="">
+                </div>
+                <h2>Rwanda</h2>
+            </div>
+            <div class="card">
+                <div class="card-image">
+                    {% load static %}
+                    <img src="{% static 'media/eac-logo.jpeg' %}" alt="">
+                </div>
+                <h2>EAC</h2>
+            </div>          
+        </div>
+
+    </div>
+    <div class="faq">
+        <div class="title">
+            <h1>faq</h1>
+        </div>
+        <div class="question">
+            <a href="">
+                <p>How can i buy a ticket with discount</p>
+                <i class="bi bi-chevron-compact-right"></i>
+            </a>
+        </div>
+        <div class="question">
+            <a href="">
+                <p>How can i buy a ticket with discount</p>
+                <i class="bi bi-chevron-compact-right"></i>
+            </a>
+        </div>
+        <div class="question">
+            <a href="">
+                <p>How can i buy a ticket with discount</p>
+                <i class="bi bi-chevron-compact-right"></i>
+            </a>
+        </div>
+        <div class="question">
+            <a href="">
+                <p>How can i buy a ticket with discount</p>
+                <i class="bi bi-chevron-compact-right"></i>
+            </a>
+        </div>
+        <div class="faq-links">
+            <a href="#">See all topics</a>
+        </div>
+    </div>
+</div>
+{% endblock  %}

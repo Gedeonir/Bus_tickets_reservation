@@ -1,0 +1,36 @@
+{% extends "ticketapp/base.html" %}
+{% block body %}
+<div class="content">
+  <div class="booking-section">
+    <form action=" {% url 'bookTicket' schedule.schedule_id %} " method="post" class="bookingForm">
+      <div class="booking-header">
+        <p>Fill in with your personal information</p>
+      </div>
+      {% csrf_token %}
+      <p class="error-text">{{error}}</p>
+      {{form.schedule_id}}
+      {{form.errors}}
+      <div class="input-group">
+        <label for="Gender" class="form-label">{{ form.customer_email.label}}</label>
+        {{ form.customer_email}}
+        {{form.customer_email.help_text}}
+      </div>
+    
+      <div class="input-group">
+        <label for="Contact" class="form-label">{{ form.contacts.label}}</label>
+        {{ form.contacts}}
+      </div>
+      <div class="input-group">
+        <label for="Gender" class="form-label">{{ form.tickets.label}}</label>
+        {{ form.tickets}}
+        <p>Remaining tickets: <label>{{Tickets}}</label></p>
+        <p>Price per ticket: <label>{{Price}} RF</label></p>
+      </div>
+      <div class="input-group">
+        <button type="submit" name="Book"><i class="bi bi-save2"></i>Book</button>
+      </div>
+    </form>
+    </div>
+  </div>
+
+{% endblock %}

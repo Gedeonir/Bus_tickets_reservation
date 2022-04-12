@@ -1,0 +1,60 @@
+{% extends 'ticketapp/base.html' %}
+{% block body %}
+<div class="content">
+  <div class="booking-section">
+    
+    <form action="{% url 'signup' %}" method="post" class="signupForm">
+      <div class="booking-header">
+        <p>Fill in with your personal information</p>
+      </div>
+      {% csrf_token %}
+        {{ success }}
+        <p class="error-text">
+          {{error}}
+          {{form.errors}}
+        </p>
+        <div class="input-group">
+          <label for="Firstnames">{{ form.firstname.label}}</label>
+          {{ form.firstname}}
+        </div>
+        <div class="input-group">
+          <label for="lastnames" >{{ form.lastname.label}}</label>
+          {{ form.lastname}}
+        </div>
+          
+        <div class="input-group">
+          <label for="Email" >{{form.emailAddress.label}}</label>
+          {{ form.emailAddress}}
+        </div>
+        <div class="input-group">
+          <label for="Contact" >{{ form.contacts.label}}</label>
+          {{ form.contacts}}
+        </div>
+        <div class="input-group">
+          <label for="Username" >{{ form.username.label}}</label>
+          {{ form.username}}
+        </div>
+        <div class="input-group">
+          <label for="Gender" >{{ form.gender.label}}</label>
+          {{ form.gender}}
+        </div>
+        <div class="input-group">
+          <label for="Password1" >{{ form.password.label}}</label>
+          {{ form.password}}
+        </div>
+        <div class="input-group">
+          <label for="ConfirmPassword1" >{{ form.confirmpassword.label}}</label>
+          {{ form.confirmpassword}}
+          <i class="fas fa-eye"></i>
+        </div>
+        <div class="input-group">
+          <label>Already have an account?<a href="{% url 'signin' %}">Log in</a></label>
+        </div>
+        
+        <div class="input-group">
+          <button type="submit">Create account</button>
+        </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,36 +1,37 @@
 
+from ast import If
+import datetime
 import sched
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 
+
 from ticketapp.forms import ContactForm
-from .models import bookings, customers, payements, schedules,buses,drivers
+from .models import bookings, customers, payements, schedules,buses,drivers 
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from django.views import generic
 
 # Create your views here.
 def home(request):
-    favorite_trips = schedules.objects.all()[:5]
-    num_visits = request.session.get('num_visits', 0)
-    request.session['num_visits'] = num_visits + 1
-    buses_list = buses.objects.all()[:5]
-    drivers_list = drivers.objects.all()[:5]
-    num_of_bookings = bookings.objects.count()
-    num_of_payements= payements.objects.count()
-    recent_bookings = bookings.objects.all()[:5]
+    popular_rwanda_trips = schedules.objects.filter()[:5]
+    popular_eac_trips = schedules.objects.filter()[:5]
+    
+    travel_schedules = schedules.objects.values('starting_point','destination')
+
+
     context = {
-        'favorite_trips': favorite_trips,
-        'num_of_visits': num_visits + 1,
-        'buses_list':buses_list,
-        'drivers_list':drivers_list,
-        'num_of_bookings':num_of_bookings,
-        'num_of_payements':num_of_payements,
-        'recent_bookings':recent_bookings
+        'popular_rwanda_trips': popular_rwanda_trips,
+        'popular_eac_trips':popular_eac_trips,
+        'travel_schedules':travel_schedules,
     }
 
-    return render(request, 'ticketapp/homepage.html', context=context)
+    return render(request, 'ticketapp/index.html', context=context)
 
+    
+from django.core.paginator import Paginator
 class schedulesListView(generic.ListView):
+    paginate_by = 10
     model = schedules
 
     def get_queryset(self):
@@ -208,21 +209,26 @@ class deletepayement(DeleteView):
 
 def search_results(request):
     context = {}
+   
     if request.method == 'POST':
         origin = request.POST.get('origin')
         dest = request.POST.get('destination')
-        date = request.POST.get('date')
-
-        buses_list = schedules.objects.filter(starting_point=origin, destination=dest, schedule_date=date)
-        if buses_list:
+        date = request.POST.get('departure-date')
+        
+        travel_title=schedules.objects.filter(starting_point=origin, destination=dest, schedule_date=date)[:1]
+        travels_list = schedules.objects.filter(starting_point=origin, destination=dest, schedule_date=date)
+        numberofbuses = travels_list.count()
+        
+        if travels_list:
             return render(request, 'ticketapp/searchResult.html', locals())
 
         else:
-            context["error"] = "Sorry no buses available"
-            return render(request, 'ticketapp/searchResult.html',context)
+            context["error"] = "NO BUSES FOUND"
+            return render(request, 'ticketapp/index.html',context=context)
 
     else:
-         return render(request, 'ticketapp/searchResult.html')
+        context["error"] = "ERROR OCCURED"
+        return render(request, 'ticketapp/index.html')
 
 
 
@@ -246,60 +252,164 @@ def about(request):
     return render(request,'ticketapp/aboutus.html',context)      
 
 
-
+from .forms import userSignUpForm
+from django.contrib.auth.models import User
 def signup(request):
+   
     context = {}
     if request.method == 'POST':
-        names = request.POST.get('fullnames')
-        emails = request.POST.get('email')
-        telephone = request.POST.get('contacts')
-        user_n = request.POST.get('username')
-        pwd =  request.POST.get('password')
-        cpwd =  request.POST.get('confirmpassword')
 
-        customer = customers.objects.create_user(names,emails,telephone,user_n,pwd,) 
+        form =userSignUpForm(request.POST)
+        if form.is_valid():
+            Firstname = request.POST.get('firstname')
+            Lastname = request.POST.get('lastname')
+            Email = request.POST.get('emailAddress')
+            telephone = request.POST.get('contacts')
+            user_n = request.POST.get('username')
+            pwd =  request.POST.get('password')
+            Gender = request.POST.get('gender')
 
-        if customer:
-            login(request,customer)
-            context["success"] = "Account created sucessfully"
-            return render(request, 'ticketapp/signup.html', context)
-        
-        else:
-            context["error"] = "Acount creation Failed! There might be some errors"
-            return render(request, 'ticketapp/signup.html', context)
+            user = User.objects.create_user(firstname=Firstname,lastname=Lastname,email=Email,contacts=telephone,username=user_n,gender=Gender,password=pwd,) 
 
-    else:
-        return render(request, 'ticketapp/signup.html', context)
-
-
-
-def bookticket(request):
-    context = {}
-    if request.method == 'POST':
-        id_r = request.POST.get('scheduleid')
-        seats_r = int(request.POST.get('tickets'))
-        schedule = schedules.objects.filter(schedule_id=id_r)
-        if schedule:
-            if schedule.availableseats > int(seats_r):
-                bus = schedule.bus
-                cost = int(seats_r) * schedule.price
-                source_r = schedule.starting_point
-                dest_r = schedule.destination
-                price_r = schedule.price
-                date_r =schedule.schedule_date
-                time_r = schedule.departing_time
-                email_r = request.POST.get('customeremail')
-                userid_r = request.user.id
-                rem_r = schedule.availableseats - seats_r
-                schedules.objects.filter(schedule_id=id_r).update(availableseats=rem_r)
-                book = bookings.objects.create(customer_email=email_r, schedule=id_r,tickets=seats_r,
-                                            total_amount_to_pay=cost,status='BOOKED')
-                print('------------book id-----------', book.booking_id)
-                # book.save()
-                return render(request, 'ticketapp/schedules_detail.html', locals())
+            if user:
+                login(request, user)
+                return render(request, 'ticketapp/index.html', context)
+            
             else:
-                context["error"] = "Sorry select fewer number of seats"
-                return render(request, 'myapp/findbus.html', context)
+                context["error"] = "Acount creation Failed! There might be some errors"
+                return render(request, 'ticketapp/user-accounts/signup.html', context)
+        else:
+            context = {'form':form}
+            return render(request, 'ticketapp/user-accounts/signup.html', context)
+
 
     else:
-        return render(request, 'myapp/findbus.html')
+        form = userSignUpForm()
+        context = {'form':form}
+        return render(request, 'ticketapp/user-accounts/signup.html', context)
+   
+from .forms import UserLoginForm
+def signin(request):
+    context = {}
+    if request.method == 'POST':
+        form =UserLoginForm(request.POST)
+
+        if form.is_valid():
+            name_r = request.POST.get('username')
+            password_r = request.POST.get('password')
+            user = authenticate(request, username=name_r, password=password_r)
+            if user:
+                login(request, user)
+                # username = request.session['username']
+              
+                context={
+                    "user" : name_r,
+                    "id" : request.user.id,
+                    }
+                return HttpResponseRedirect('/')
+            else:
+                context={
+                    "error": "Provide valid credentials",
+                    'form':form
+                    }
+                return render(request, 'ticketapp/user-accounts/signin.html', context)
+        else:
+            context={
+                "error": "Internal error",
+                'form':form
+                }
+            return render(request, 'ticketapp/user-accounts/signin.html', context)
+
+    else:
+        form = UserLoginForm()
+        context={"error": "You are not logged in",'form':form}
+        return render(request, 'ticketapp/user-accounts/signin.html', context)
+
+
+
+from .forms import bookTicketForm
+
+def bookticket(request,pk):
+    schedule = get_object_or_404(schedules, pk=pk)
+    context ={}
+
+    if request.method == 'POST':
+        form= bookTicketForm(request.POST)
+
+        if form.is_valid():
+
+            seats_r = int(request.POST.get('tickets'))
+            if schedule:
+                if schedule.availableseats > int(seats_r):
+                    cost = int(seats_r) * int(schedule.price)
+                    email_r = request.POST.get('customer_email')
+                    contacts = request.POST.get('contacts')
+                    schedule_id = request.POST.get('schedule_id')
+                    rem_r = schedule.availableseats - seats_r
+                    
+                    book = bookings.objects.create(customer_email=email_r,schedule=schedule,From=schedule.starting_point,To=schedule.destination,tickets=seats_r,
+                                                    total_amount_to_pay=cost,travelDate= schedule.schedule_date, travelTime = schedule.departing_time)
+                    if book:
+                        print('------------booking id-----------', book.booking_id)
+                        schedules.objects.filter(schedule_id=pk).update(availableseats=rem_r)
+                        customers.objects.create(email=email_r,contacts=contacts)
+                        context={
+                        "error": "Your ticket booked sucessfully",
+                        'schedule': schedule,
+                        'form':form,
+                        'Tickets':schedule.availableseats,
+                        'Price':schedule.price 
+                        }
+                        return render(request, 'ticketapp/bookTicket.html',context)
+                    else:
+                        context={
+                        "error": "Error Occured! please try again",
+                        'schedule': schedule,
+                        'form':form,
+                        'Tickets':schedule.availableseats,
+                        'Price':schedule.price 
+                        }
+                        return render(request, 'ticketapp/bookTicket.html', context) 
+                else:
+                    context={
+                    "error": "Sorry,your tickets must be less than available tickets",
+                    'schedule': schedule,
+                    'form':form,
+                    'Tickets':schedule.availableseats,
+                    'Price':schedule.price 
+                    }
+                    return render(request, 'ticketapp/bookTicket.html', context)
+            else:
+                context={
+                    "error": "Sorry no such schedule",
+                    'schedule': schedule,   
+                }
+        
+                return render(request, 'ticketapp/schedules_list.html', context)
+        else:
+            context={
+                        "error": "UNKOWN EXCEPTION",
+                        'schedule': schedule,
+                        'form':form,
+                        'Tickets':schedule.availableseats,
+                        'Price':schedule.price 
+                        }
+            return render(request, 'ticketapp/bookTicket.html',context)
+    else:
+        if request.user.is_active:
+          form= bookTicketForm(initial={'customer_email':request.user.email})  
+        if request.user.is_superuser:
+            form = bookTicketForm()
+        
+        return render(request, 'ticketapp/bookTicket.html',context={'schedule': schedule,'form':form,'Tickets':schedule.availableseats,'Price':schedule.price })
+
+
+def signout(request):
+    form = UserLoginForm()
+    context = {}
+    logout(request)
+    context={
+        'error': "You have been logged out",
+        'form':form
+        }
+    return render(request, 'ticketapp/user-accounts/signin.html', context)

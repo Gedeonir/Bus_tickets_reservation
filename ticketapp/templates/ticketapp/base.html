@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bus tickets Online</title>
+  
+  {% load static %}
+  <link rel="stylesheet" type='text/css' href="{% static '/css/style.css' %}">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+</head>
+<body>
+    {%block header%}
+    <div class="header">
+        <div class="logo">
+            {% load static %}
+            <img src="{% static 'media/Logo.png' %}" alt="logo">
+        </div>
+        <div class="header-links">
+            <div class="accounts">
+                <div class="languagedropdown">
+                    <select name="languages" id="languages">
+                        <option value="english">eng</option>
+                        <option value="kinyarwanda">kiny</option>
+                        <option value="french">fr</option>
+                    </select>
+
+                </div>
+                <div class="account-detailsdropdown">
+                    {%if user.is_authenticated%}
+                    {% if request.user.is_active %}
+                       
+                        <button><i class="bi bi-person"></i>{{user.email}}<i class="bi bi-chevron-compact-down"></i></button>
+                            
+                        <div class="dropdown-content">
+                            <a href="">Profile</a>
+                            <a href="{% url 'signout' %}">sign out</a>
+                        </div>
+                    {% endif %}
+                    
+                    {% else %}
+                        <button><i class="bi bi-person"></i>Account<i class="bi bi-chevron-compact-down"></i></button>
+                            
+                        <div class="dropdown-content">
+                            <a href="{% url 'signin' %}">log in</a>
+                            <a href="{% url 'signup' %}">sign up</a>
+                        </div>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="navbar">
+                <ul>
+                    <li>
+                        <a href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'schedule-list' %}">Schedules</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    {% if request.user.is_staff %}
+                    <li>
+                        <a href="{% url 'driver-list' %}">Drivers</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'schedule-list' %}">Buses</a>
+                    </li>
+                    {% endif %}
+                    {% endif %}
+                    <li>
+                        <a href="">manage bookings</a>
+                    </li>
+                    <li>
+                        <a href="">explore places</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    {%endblock%}
+    {% block  body%}
+    {% endblock  %}
+    {% include 'ticketapp/footer.html' %}
+    {% load static %}
+    <script src="{% static 'javascript/index.js' %}"></script>
+    <script src="{% static 'javascript/pass_hide_show.js' %}"></script>
+</body>
+</html>

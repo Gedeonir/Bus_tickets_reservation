@@ -1,41 +1,93 @@
-
-{% extends 'ticketapp/header.html' %}
-{% block content %}
-<div class="results d-block">
-  {% for row in buses_list %}
-  <div class="title d-flex border-bottom p-2">
-    <span> Trip: </span>
-    <span>{{row.starting_point}}> </span>
-    <span>{{row.destination }}</span>
+{% extends 'ticketapp/base.html' %}
+{% block body %}
+<div class="searchresults">
+  <div class="error-text">{{error}}</div>
+  {% for row in  travel_title %}
+  <div class="search_title">
+    <div class="orgin-title">
+      <label for="origin">{{row.starting_point}}</label>
+    </div>
+    <div class="arrow"> <i class="bi bi-arrow-right"></i></div>
+    <div class="destination-title">
+      <label for="destination">{{row.destination}}</label>
+    </div>
+    <div class="date-toggler">
+      <button class="backward"><i class="bi bi-chevron-compact-left"></i></button>
+      <div class="date-title">{{row.schedule_date}}</div>
+      <button class="forward"><i class="bi bi-chevron-compact-right"></i></button>
+    </div>
+    <div class="modify">
+      <button class="modify-button">Modify</button>
+    </div>
   </div>
-  <div class="schedules_list">
-    <table class="table table-striped" >
-      <thead>
-
-      <td>BUS</td>
-      <td>SOURCE</td>
-      <td>DESTINATION</td>
-      <td>PRICE</td>
-      <td>DATE</td>
-      <td>DEPARTING TIME</td>
-      <td>ESTMATED ARRIVAL TIME</td>
-  
-      </thead>
-     
-     <tr>
-          <td>{{ row.bus }}</td>
-          <td>{{ row.starting_point }}</td>
-          <td>{{ row.destination }}</td>
-          <td>{{ row.price }} RF</td>
-          <td>{{ row.schedule_date }} </td>
-          <td>{{ row.departing_time }}</td>
-          <td>{{ row.estimated_arrival_time }}</td>
-  
-  
-      </tr>
-      
-  </table>
+  <div class="results-title">
+    <div class="buses">
+      <label>{{numberofbuses}} Bus(es)</label><p> Found</p>
+    </div>
   </div>
   {% endfor %}
+
+ 
+  <div class="results">
+    {% for row in travels_list  %}
+    <div class="searchcardbox">
+      <div class="searchcard">
+        <div class="searchcard-image">
+
+        </div>
+        <h6>Company</h6>
+        <div class="card-text">
+          <label for="comapany">Volcano Express</label>
+        </div>
+      </div>
+      <div class="searchcard">
+        <h6>Departing time</h6>
+        <div class="card-text">
+          <label for="departing-time">{{row.departing_time}}</label>
+          <div>
+            <h7>Terminal:</h7>
+            <p>Nyabugogo tax park</p>
+          </div>
+        </div>
+      </div>
+      <div class="searchcard">
+        <h6>Duration</h6>
+        <div class="card-text">
+          <label for="duration">1h 45min</label>
+        </div>
+      </div>
+      <div class="searchcard">
+        <h6>Estimated arrival time</h6>
+        <div class="card-text">
+          <label for="arriving_time">{{row.estimated_arrival_time}}</label>
+          <div>
+            <h7>Terminal:</h7>
+            <p>Muhanga tax park</p>
+          </div>
+        </div>
+        
+      </div>
+      <div class="searchcard">
+        <h6>Fare amount</h6>
+        <div class="card-text">
+          <label for="fare">{{row.price}} Rf</label>
+        </div>
+      </div>
+      <div class="searchcard">
+        <h6>Seats available</h6>
+        <div class="card-text">
+          <label for="duration">{{row.availableseats}}</label>
+        </div>
+      </div>
+      <div class="full-details">
+        <a href="{{ schedule.get_absolute_url }}">View full details</a>
+      </div> 
+    </div>  
+     
+    {% endfor %}
+    
+  </div>
+  
 </div>
+
 {% endblock %}

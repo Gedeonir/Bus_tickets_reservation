@@ -1,15 +1,32 @@
-{% extends "ticketapp/header.html" %}
+{% extends "ticketapp/base.html" %}
 
-{% block content %}
-<div class="main-logged-in">
-  {% include 'ticketapp/topbar.html' %}
-  <h1>Delete driver</h1>
+{% block body %}
 
-  <p>Are you sure you want to delete the driver: {{ drivers.driver_names}} with email {{drivers.email}}?</p>
+<div class="content">
+  {% if user.is_authenticated %}
+  {% if request.user.is_staff %}
+  <div class="booking-section">
+    <div class="booking-header">
+      <p>confirm to Delete driver</p>
+      <div class="booklink">
+        <a href=" {% url 'driver-detail' drivers.driver_id %}">Cancel</a>
+      </div>      
+    </div>
+    
+    <p>Are you sure you want to delete the driver: {{ drivers.driver_names}}?</p>
 
-  <form action="" method="POST">
-    {% csrf_token %}
-    <button type="submit" class="buttons"><i class="bi bi-trash"></i>Yes,delete</button>
-  </form>
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="input-group">
+        <button type="submit" class=""><i class="bi bi-trash"></i>Yes,delete</button>
+      </div>
+    </form>
+  </div>
+  {% else %}
+  <p class="error-text">Acess forbiden 405</p>
+  {% endif %}
+  {% else %}
+  <p class="error-text">Acess denied. you must login first <a href='{% url 'signin' %}'>here</a></p>
+  {% endif %}
 </div>
 {% endblock %}

@@ -1,165 +1,119 @@
-{% extends "ticketapp/header.html" %}
-
-{% block content %}
-{%if user.is_authenticated%}
-<div class="main-logged-in">
-  {% include 'ticketapp/topbar.html' %}
-  <div class="schedules_details">
-    <div class="header">
-        <h1>{{ schedules.starting_point }}-{{schedules.destination}}</h1>
+{% extends 'ticketapp/base.html' %}
+{% block body %}
+  <div class="schedule-details">
+    <div class="schedule-detail-title">
+      <div class="booking-header">
+        <p>OUR Schedules</p>
+        <div class="booklink">
+          <a href=" {% url 'bookTicket' schedules.schedule_id %}">BOOK TICKET</a>
+        </div>
+      </div>
     </div>
-    <div class="d-lg-flex border-bottom">
-        <div class="d-block m-2 w-100">
-          <div class="d-flex">
-            <p class="card-text py-2">orgin:</p> 
-            <p class="card-data">{{schedules.starting_point }}</p>
+      
+    <div class="schedule-detail-body">
+      <div class="schedule-detail-body-left">
+        <div class="boardingdropping">
+          <div class="boarding">
+            <label for="">boarding</label>
+            <div class="boardingpoint">
+              <label for="">{{schedules.departing_time}}</label>
+              <p>Terminal name</p>
+            </div>
+            
           </div>
-          <div class="d-flex">
-            <p class="card-text py-2">Destination:</p>
-            <p class="card-data"> {{ schedules.destination }}</p>
+          <div class="dropping">
+            <label for="">Dropping</label>
+            <div class="droppingpoint">
+              <label for="">{{schedules.estimated_arrival_time}}</label>
+              <p>Terminal name</p>
+            </div>
+              
           </div>
-          <div class="d-flex">
-            <p class="card-text py-2">Price: </p>
-            <p class="card-data">{{ schedules.price }}RF</p>
+          <label for="">Bus image</label>
+          <div class='content'>
+            <div class="input-group">
+              <label for="">Inside view<label>
+              {% load static %}
+              <img src="{% static 'media/Bannerbackground.jpg' %}">
+            </div>
+            <div class="input-group">
+              <label for="">Inside view<label>
+              {% load static %}
+              <img src="{% static 'media/Bannerbackground.jpg' %}">
+            </div>
+            <div class="input-group">
+              <label for="">Inside view<label>
+              {% load static %}
+              <img src="{% static 'media/Bannerbackground.jpg' %}">
+            </div>
           </div>
-          <div class="d-flex">
-            <p class="card-text py-2">Departing time:</p>
-            <p class="card-data">{{ schedules.departing_time }}</p>
+          <label for="">Add ons</label>
+      </div>
+    </div>
+    <div class="booking-section"> 
+      <div class="booking-header">
+        <div class="company">
+            <p>Volcano express</p>
+        </div>
+        <div class="price">
+            {{schedules.price}} rf
+        </div>
+      </div>
+      <div class="searchcardbox">
+          <div class="searchcard">
+            <h6>Departing time</h6>
+            <div class="card-text">
+              <label for="departing-time">{{schedules.departing_time}}</label>
+            </div>
           </div>
-          <div class="d-flex">
-            <p class="card-text py-2">Estimated Arrival time:</p>
-            <p class="card-data"> {{ schedules.estimated_arrival_time}}</p>
+          <div class="searchcard">
+            <h6>Duration</h6>
+            <div class="card-text">
+              <label for="duration">1h 45min</label>
+            </div>
           </div>
-          <div class="d-flex">
-            <p class="card-text py-2">Date:</p> 
-            <p class="card-data">{{schedules.schedule_date }}</p>
+          <div class="searchcard">
+            <h6>Estimated arrival time</h6>
+            <div class="card-text">
+              <label for="arriving_time">{{schedules.estimated_arrival_time}}</label>
+            </div>
+            
           </div>
-          <div class="d-flex">
-            <p class="card-text py-2">Bus:</p>
-            <p class="card-data"> {{ schedules.bus}}</p>
+          <div class="searchcard">
+            <h6>Schedule</h6>
+            <div class="card-text">
+              <label for="">{{schedules.starting_point}} - {{schedules.destination}}</label>
+            </div>
+            
+          </div>
+          <div class="searchcard">
+            <h6>Date</h6>
+            <div class="card-text">
+              <label for="departing-time">{{schedules.schedule_date}}</label>
+            </div>
+          </div>
+          <div class="searchcard">
+            <h6>Assigned bus</h6>
+            <div class="card-text">
+              <label for="duration">{{schedules.bus}}</label>
+            </div>
+          </div>
+          <div class="searchcard">
+            <h6>driver</h6>
+            <div class="card-text">
+              <label for="arriving_time">{{schedules.driver}}</label>
+            </div>
+            
+          </div>
+          <div class="searchcard">
+            <h6>Seats Available</h6>
+            <div class="card-text">
+              <label for="arriving_time">{{schedules.available}}</label>
+            </div>
+            
           </div>
         </div>
       </div>
-      <div class="links d-flex p-2 m-2">
-        <a href="{% url 'schedule-update' schedules.schedule_id %}" class="btn  m-2"> <i class="bi bi-pencil-square"></i>Edit</a>
-        <a href="{% url 'schedule-delete' schedules.schedule_id %}" class="btn  m-2"><i class="bi bi-trash"></i>Delete</a>
-      </div>
-     
-  </div>
-
- 
-</div>
-{%else%}
-<div class="schedule-details m-2">
-  <div class="schedule-detail-title">
-    <div class="company p-2 m-3" >
-      Volcano Express
     </div>
   </div>
-   
- <div class="schedule-detail-body d-flex justify-content-between">
-     <div class="schedule-detail-body-left w-50">
-         <div class="boardingdropping d-flex justify-content-between w-100">
-             <div class="boarding m-3 px-1 d-block w-100">
-                 <label for="">boarding</label>
-                 <div class="boardingpoint m-2">
-                     <label for="">{{schedules.departing_time}}</label>
-                     <p>{{schedules.starting_point}}</p>
-                 </div>
-               
-             </div>
-             <div class="dropping m-3 px-1 d-block w-100">
-                <label for="">Dropping</label>
-                <div class="droppingpoint m-2">
-                  <label for="">{{schedules.estimated_arrival_time}}</label>
-                  <p>{{schedules.destination}}</p>
-                </div>
-             </div>
-             <div class="m-3 px-1 d-block w-100">
-              <label for="">available seats</label>
-              <p>{{schedules.availableseats}}</p>
-             </div>
-         </div>
-     </div>
-     <div class="booking-section d-block px-5 w-100"> 
-       
-         <div class="booking-header d-flex justify-content-between w-100">
-             <div class="company d-flex w-50 justify-content-start">
-               <label>Company:</label>
-                 <p>Volcano express</p>
-             </div>
-             <div class="price w-100 text-end">
-                 {{schedules.price}} rf
-             </div>
-         </div>
-         <div class="schedulecardbox d-flex justify-content-between">
-             <div class="schedulecard p-2 w-100">
-               <h6>Dept. time</h6>
-               <div class="card-text py-2">
-                 <label for="departing-time">{{schedules.departing_time}}</label>
-               </div>
-             </div>
-             <div class="schedulecard p-2 w-100">
-               <h6>Duration</h6>
-               <div class="card-text py-2">
-                 <label for="duration">1h 45min</label>
-               </div>
-             </div>
-             <div class="schedulecard p-2 w-100">
-               <h6>Est.arr.time</h6>
-               <div class="card-text py-2">
-                 <label for="arriving_time">{{schedules.estimated_arrival_time}}</label>
-               </div>
-               
-             </div>
-             <div class="schedulecard p-2 w-100">
-               <h6>Schedule</h6>
-               <div class="card-text py-2">
-                 <label for="">{{schedules.starting_point}} - {{schedules.destination}}</label>
-               </div>
-               
-             </div>
-             <div class="schedulecard p-2 w-100">
-               <h6>Date</h6>
-               <div class="card-text py-2">
-                 <label for="departing-time">{{schedules.schedule_date}}</label>
-               </div>
-             </div>
-             <div class="schedulecard p-2 w-100">
-               <h6> bus</h6>
-               <div class="card-text py-2">
-                 <label for="duration">{{schedules.bus}}</label>
-               </div>
-             </div>
-             <div class="schedulecard p-2 w-100">
-               <h6>driver</h6>
-               <div class="card-text py-2">
-                 <label for="arriving_time">{{schedules.driver}}</label>
-               </div>
-               
-             </div>
-          </div>       
-
-         <form action="{% url 'savebooking' %}" method="post" class="d-grid grid-gap-2">
-           {% csrf_token %}
-           <input type="text" name="scheduleid" value="{{schedules.schedule_id}}" disabled>
-           <input type="text" name="origin" value="{{schedules.starting_point}}" disabled>
-           <input type="text" name="destination" value="{{schedules.destination}}" disabled>
-           <input type="text" name="date" value="{{schedules.schedule_date}}" disabled>
-           <input type="text" name="departing-time" value="{{schedules.departing_time}}" disabled>
-           <input type="text" name="arriving_time" value="{{schedules.estimated_arrival_time}}" disabled>
-           <input type="text" name="location" value="{{schedules.driver}}" disabled>
-           <input type="text" name="bus" value="{{schedules.bus}}" disabled>
-           
-           <input type="text" name="customeremail" placeholder="enter your email">
-           <input type="number" name="tickets" placeholder="number of tickets" min=1 max=5>
-
-           <button type="submit">Next</button>
-         </form>
-     </div>
- </div>
-</div>
-</div>
-{% endif %}
-
 {% endblock %}

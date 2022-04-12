@@ -7,10 +7,12 @@ urlpatterns = [
     path('search_results',views.search_results, name='searchbus'),
 
     path('schedules/', views.schedulesListView.as_view(), name='schedule-list' ),
-    path('schedules/<int:pk>', views.schedulesDetailView.as_view(), name='schedule-detail'),
+    path('schedules/<str:pk>', views.schedulesDetailView.as_view(), name='schedule-detail'),
     path('schedules/create/', views.scheduleCreate.as_view(), name='schedule-create'),
     path('schedules/<int:pk>/update/', views.scheduleUpdate.as_view(), name='schedule-update'),
     path('schedules/<int:pk>/delete/', views.deleteSchedules.as_view(), name='schedule-delete'),
+    path('schedules/<str:pk>/bookticket', views.bookticket, name='bookTicket'),
+    # path('schedules/<str:pk>/confirmbooking', views.confirmBooking, name='confirmbooking'),
 
     path('buses/', views.busesListView.as_view(), name='bus-list'),
     path('buses/<int:pk>',views.busesDetailView.as_view(), name='bus-detail'),
@@ -20,7 +22,6 @@ urlpatterns = [
 
     path('bookings/', views.bookingsListView.as_view(), name='booking-list' ),
     path('bookings/<str:pk>', views.bookingsDetailView.as_view(), name='booking-detail'),
-    path('bookings/create/', views.bookingCreate.as_view(), name='booking-create'),
     path('bookings/<str:pk>/update/', views.bookingUpdate.as_view(), name='booking-update'),
     path('bookings/<str:pk>/delete/', views.deletebooking.as_view(), name='booking-delete'),
 
@@ -46,10 +47,10 @@ urlpatterns = [
     
 
     path('signup',views.signup, name='signup'),
-    path('login', views.login, name='login' ),
-    path('aboutus', views.about, name='aboutus' ),
+    path('login', views.signin, name='signin' ),
+    path('signout', views.signout, name="signout"),
 
-    path('drivers/save/', views.bookticket, name='savebooking'),
+    path('aboutus', views.about, name='aboutus' ),
 ]
 urlpatterns += staticfiles_urlpatterns()
 

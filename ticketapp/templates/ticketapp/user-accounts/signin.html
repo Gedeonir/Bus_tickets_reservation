@@ -1,0 +1,40 @@
+{% extends 'ticketapp/base.html' %}
+{% block body %}
+
+<div class="content">
+  <div class="booking-section">
+    
+    <form action="{% url 'signin' %}" method="post" class="signupForm">
+      <div class="booking-header">
+        <p>Log into your account</p>
+      </div>
+      {% csrf_token %}
+        {{ success }}
+        <p class="error-text">{{error}}</p>
+        <div class="input-group">
+          <label for="Username" >{{ form.username.label}}</label>
+          {{ form.username}}
+        </div>
+        <div class="input-group">
+          <label for="Password1" >{{ form.password.label}}</label>
+          {{ form.password}}
+          <i class="bi bi-eye"></i>
+        </div>
+
+        <div class="input-group">
+          <label>Dont have an account yet?<a href="{% url 'signup' %}"> Create account</a></label>
+          <p><a href="">Forgot password?</a></p>
+        </div>
+        
+        <div class="input-group">
+          <button type="submit">Login</button>
+        </div>
+    </form>
+  </div>
+</div>
+
+
+{% endblock  %}
+
+
+

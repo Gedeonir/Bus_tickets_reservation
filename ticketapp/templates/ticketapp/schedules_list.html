@@ -1,57 +1,91 @@
-{% extends "ticketapp/header.html" %}
+{% extends "ticketapp/base.html" %}
 
-{% block content %}
-<div class="main-logged-in">
-  {% include 'ticketapp/topbar.html' %}
-    <div class="row">
-      <div class="schedules_list col-12">
-        <div class="header">
-          <h1>schedules list</h1>
-          <div>
-            <a href=" {% url 'schedule-create' %} "><i class="bi bi-plus-lg"></i> Add new</a>
-          </div>
-        </div>
-        
-        {% if schedules_list %}
-        <table>
-          <thead>
-            <tr>
-              <td>ID</td>
-              <td>Schedule</td>
-              <td>Price</td>
-              <td>Departing time</td>
-              <td>Estmated arrival time</td>
-              <td>Date</td>
-              <td>Bus</td>
-              <td>Driver</td>
-              <td>seats remaining</td>
-            </tr>
-          </thead>
-          <tbody>
-            {% for schedule in schedules_list %}
-            <tr>
-              <td>{{schedule.schedule_id}}</td>
-              <td><a href="{{ schedule.get_absolute_url }}">{{ schedule.starting_point }}-{{schedule.destination}}</a></td>
-              <td> {{schedule.price}} RF </td>
-              <td> {{schedule.departing_time}} </td>
-              <td>{{schedule.estimated_arrival_time}}</td>
-              <td>{{schedule.schedule_date}}</td>
-              <td>{{schedule.bus}}</td>
-              <td>{{schedule.driver}}</td>
-              <td>{{schedule.availableseats}}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-          {% else %}
-            <p>There are no schedules available</p>
-          {% endif %}
-      </div>
+{% block body %}
+<div class="content">
+  <div class="booking-section">
+    <div class="booking-header">
+      <p>OUR Schedules</p>
       
     </div>
-    {% include 'ticketapp/footer.html' %}
+    <div class="results">
+      {% for row in schedules_list  %}
+      <div class="searchcardbox">
+        <div class="searchcard">
+          <div class="searchcard-image">
+
+          </div>
+          <h6>Company</h6>
+          <div class="card-text">
+            <label for="comapany">Volcano Express</label>
+          </div>
+        </div>
+        <div class="searchcard">
+          <h6>Departing time</h6>
+          <div class="card-text">
+            <label for="departing-time">{{row.departing_time}}</label>
+            <div>
+              <h7>Terminal:</h7>
+              <p>Nyabugogo tax park</p>
+            </div>
+          </div>
+        </div>
+        <div class="searchcard">
+          <h6>Duration</h6>
+          <div class="card-text">
+            <label for="duration">1h 45min</label>
+          </div>
+        </div>
+        <div class="searchcard">
+          <h6>Estimated arrival time</h6>
+          <div class="card-text">
+            <label for="arriving_time">{{row.estimated_arrival_time}}</label>
+            <div>
+              <h7>Terminal:</h7>
+              <p>Muhanga tax park</p>
+            </div>
+          </div>
+          
+        </div>
+        <div class="searchcard">
+          <h6>Fare amount</h6>
+          <div class="card-text">
+            <label for="fare">{{row.price}} Rf</label>
+          </div>
+        </div>
+        <div class="searchcard">
+          <h6>Seats available</h6>
+          <div class="card-text">
+            <label for="duration">{{row.availableseats}}</label>
+          </div>
+        </div>
+        <div class="full-details">
+          <a href="{{ row.get_absolute_url }}">View full details</a>
+        </div> 
+      </div>  
+      
+      {% endfor %}
+      {% for schedule in page_obj %}
+      {{ schedule.full_name|upper }}<br>
+      {% endfor %}
+
+      <div class="pagination">
+          <span class="step-links">
+              {% if page_obj.has_previous %}
+                  {% comment %} <a href="?page=1"> first</a> {% endcomment %}
+                  <a href="?page={{ page_obj.previous_page_number }}">&laquo; previous</a>
+              {% endif %}
+
+              <span class="current">
+                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+              </span>
+
+              {% if page_obj.has_next %}
+                  <a href="?page={{ page_obj.next_page_number }}">next &raquo; </a>
+              {% endif %}
+          </span>
+      </div>
+        
+    </div>
+  </div>
 </div>
-
-
-  
 {% endblock %}
