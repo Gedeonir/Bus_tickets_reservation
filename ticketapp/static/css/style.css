@@ -15,7 +15,7 @@
   --input:#998585;
   --black2:#FAF8F8;
   --title:#EDECEC;
-  --error: rgb(116, 13, 13);
+  --error: rgb(216, 22, 22);
 }
 body{
   min-height: 100vh;
@@ -115,6 +115,7 @@ body{
     text-align: center;
     text-transform: capitalize;
     margin-top: 1px;
+    box-shadow: 0 4px 20px rgb(0,0,0,0.08);
 }
 .account-detailsdropdown:hover .dropdown-content {
     display: block;
@@ -210,6 +211,7 @@ body{
     transition: 0.8s;
     font-weight: 700;
 }
+
 .input-group label{
     font-weight: 700;
     color: var(--input);
@@ -739,10 +741,11 @@ body{
 }
 .error-text{
     width: 100%;
-    text-align: center;
-    padding: 4px;
     color: var(--error);
     border-radius: 10px;
+    padding-left: 10px;
+    font-weight: 700;
+    font-size: 12px;
 }
 .search_title,.content_title{
     display: flex;
@@ -771,6 +774,7 @@ body{
     text-transform: capitalize;
     color: var(--input);
     padding: 6px;
+    
 }
 .date-toggler button{
     background: transparent;

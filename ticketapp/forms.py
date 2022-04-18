@@ -5,12 +5,10 @@ from pyexpat import model
 from random import choices
 from django import forms
 from django.contrib.auth import (
-    authenticate,
-    get_user_model
-
+    authenticate
 )
 
-User = get_user_model()
+from django.contrib.auth.models import User
 
 from ticketapp.models import bookings, customers, schedules
 
@@ -54,47 +52,49 @@ class bookTicketForm(forms.Form):
 
 
 from django.contrib.auth.forms import UserCreationForm 
-class userSignUpForm(forms.Form):
 
-    SEX_CHOICES = (
-    ('F', 'Female',),
-    ('M', 'Male',),
-    ('U', 'Unsure',),
-    )
+class userSignUpForm(UserCreationForm):
 
-    firstname = forms.CharField(label='Firstname',widget=forms.TextInput(attrs={'class': 'inputField'}))
-    lastname = forms.CharField(label='Lastname',widget=forms.TextInput(attrs={'class': 'inputField'}))
-    contacts = forms.IntegerField(label='Contacts',widget=forms.TextInput(attrs={'class': 'inputField'}))
-    gender = forms.ChoiceField(label="Gender",choices=SEX_CHOICES,widget= forms.Select(choices=SEX_CHOICES, attrs={'class': 'inputField'}))
-    username = forms.CharField(label='Username',widget=forms.TextInput(attrs={'class': 'inputField'}))
-    password = forms.CharField(label='Password',widget=forms.PasswordInput(attrs={'class': 'inputField'}))
-    confirmpassword = forms.CharField(label='Confirm password',widget=forms.PasswordInput(attrs={'class': 'inputField'}))
-    emailAddress = forms.EmailField(label='Email Address',widget=forms.EmailInput(attrs={'class': 'inputField'}))
+    # SEX_CHOICES = (
+    # ('F', 'Female',),
+    # ('M', 'Male',),
+    # ('U', 'Unsure',),
+    # )
+
+    # firstname = forms.CharField(label='Firstname',widget=forms.TextInput(attrs={'class': 'inputField'}))
+    # lastname = forms.CharField(label='Lastname',widget=forms.TextInput(attrs={'class': 'inputField'}))
+    # contacts = forms.IntegerField(label='Contacts',widget=forms.TextInput(attrs={'class': 'inputField'}))
+    # gender = forms.ChoiceField(label="Gender",choices=SEX_CHOICES,widget= forms.Select(choices=SEX_CHOICES, attrs={'class': 'inputField'}))
+    # username = forms.CharField(label='Username',widget=forms.TextInput(attrs={'class': 'inputField'}))
+    # password = forms.CharField(label='Password',widget=forms.PasswordInput(attrs={'class': 'inputField'}))
+    # confirmpassword = forms.CharField(label='Confirm password',widget=forms.PasswordInput(attrs={'class': 'inputField'}))
+    email = forms.EmailField(label='Email Address',help_text='Required',widget=forms.EmailInput(attrs={'class': 'inputField'}))
     
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({
+            'class':'inputField'
+        })
+        self.fields['password1'].widget.attrs.update({
+            'class':'inputField passwordField1'
+        })
+        self.fields['password2'].widget.attrs.update({
+        'class':'inputField passwordField2'
+        })
+        
     class Meta:
-        model:User
-        fields =[
-            'firstname',
-            'lastname',
-            'contacts',
-            'gender',
-            'email',
-            'username',
-            'password'
-        ]
+        model=User
+        fields = ('username', 'email', 'password1', 'password2')
     
-    def clean(self,*args, **kwargs):
-        password = self.cleaned_data.get('password')
-        cpassword = self.cleaned_data.get('confirmpassword')
-        emailAddress = self.cleaned_data.get('emailAddress')
-        if password != cpassword:
-            raise forms.ValidationError('Passwords do not match')
-        email_qs = User.objects.filter(email = emailAddress)
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        email_qs = User.objects.filter(email__iexact=email)
         if email_qs.exists():
             raise forms.ValidationError(
-                "this email has already been registered"
+                "This email has already been registered"
             )
-        return super(userSignUpForm,self).clean(*args, **kwargs)
+        return email
 
 
 class UserLoginForm(forms.Form):

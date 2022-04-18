@@ -1,11 +1,10 @@
 
 from ast import If
 import datetime
+from email import message
 import sched
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-
-
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 from ticketapp.forms import ContactForm
 from .models import bookings, customers, payements, schedules,buses,drivers 
 from django.contrib.auth import authenticate, login, logout
@@ -29,7 +28,6 @@ def home(request):
     return render(request, 'ticketapp/index.html', context=context)
 
     
-from django.core.paginator import Paginator
 class schedulesListView(generic.ListView):
     paginate_by = 10
     model = schedules
@@ -253,77 +251,116 @@ def about(request):
 
 
 from .forms import userSignUpForm
-from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from .token import account_activation_token
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes,force_str 
+from django.contrib.auth.models import User 
+
 def signup(request):
-   
-    context = {}
-    if request.method == 'POST':
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('')
+    else:
+        context = {}
+        if request.method == 'POST':
 
-        form =userSignUpForm(request.POST)
-        if form.is_valid():
-            Firstname = request.POST.get('firstname')
-            Lastname = request.POST.get('lastname')
-            Email = request.POST.get('emailAddress')
-            telephone = request.POST.get('contacts')
-            user_n = request.POST.get('username')
-            pwd =  request.POST.get('password')
-            Gender = request.POST.get('gender')
+            form =userSignUpForm(request.POST)
+            if form.is_valid():
+                user = form.save(commit=False)
+                user.is_active = False
+                user.save()
+                
 
-            user = User.objects.create_user(firstname=Firstname,lastname=Lastname,email=Email,contacts=telephone,username=user_n,gender=Gender,password=pwd,) 
-
-            if user:
-                login(request, user)
-                return render(request, 'ticketapp/index.html', context)
-            
+                if user:
+                    current_site = get_current_site(request)
+                    mail_subject = 'Confirm your email account to activate your account.'
+                    message = render_to_string('ticketapp/user-accounts/acc_active_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token':account_activation_token.make_token(user),
+                    })
+                    to_email = form.cleaned_data.get('email')
+                    email = EmailMessage(
+                        mail_subject, message, to=[to_email]
+                    )
+                    email.send()
+                    return HttpResponse('Please confirm your email address to complete the registration')
+                
+                else:
+                    context["error"] = "Acount creation Failed! There might be some errors"
+                    return render(request, 'ticketapp/user-accounts/signup.html', context)
             else:
-                context["error"] = "Acount creation Failed! There might be some errors"
+                context = {'form':form}
                 return render(request, 'ticketapp/user-accounts/signup.html', context)
+
+
         else:
+            form = userSignUpForm()
             context = {'form':form}
             return render(request, 'ticketapp/user-accounts/signup.html', context)
 
+from django.contrib.auth import (
+    get_user_model
+)
+def activate_account(request,uidb64,token):
+    User = get_user_model()
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
 
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        return redirect('home')
     else:
-        form = userSignUpForm()
-        context = {'form':form}
-        return render(request, 'ticketapp/user-accounts/signup.html', context)
+        return redirect('home')
+
    
 from .forms import UserLoginForm
 def signin(request):
-    context = {}
-    if request.method == 'POST':
-        form =UserLoginForm(request.POST)
+    if request.user.is_authenticated:
+        return redirect('home?user='+request.user.username)
+    else:
+        context = {}
+        if request.method == 'POST':
+            form =UserLoginForm(request.POST)
 
-        if form.is_valid():
-            name_r = request.POST.get('username')
-            password_r = request.POST.get('password')
-            user = authenticate(request, username=name_r, password=password_r)
-            if user:
-                login(request, user)
-                # username = request.session['username']
-              
-                context={
-                    "user" : name_r,
-                    "id" : request.user.id,
-                    }
-                return HttpResponseRedirect('/')
+            if form.is_valid():
+                name_r = request.POST.get('username')
+                password_r = request.POST.get('password')
+                user = authenticate(request, username=name_r, password=password_r)
+                if user:
+                    login(request, user)
+                    # username = request.session['username']
+                
+                    context={
+                        "user" : name_r,
+                        "id" : request.user.id,
+                        }
+                    return HttpResponseRedirect('/')
+                else:
+                    context={
+                        "error": "Provide valid credentials",
+                        'form':form
+                        }
+                    return render(request, 'ticketapp/user-accounts/signin.html', context)
             else:
                 context={
-                    "error": "Provide valid credentials",
+                    "error": "Internal error",
                     'form':form
                     }
                 return render(request, 'ticketapp/user-accounts/signin.html', context)
-        else:
-            context={
-                "error": "Internal error",
-                'form':form
-                }
-            return render(request, 'ticketapp/user-accounts/signin.html', context)
 
-    else:
-        form = UserLoginForm()
-        context={"error": "You are not logged in",'form':form}
-        return render(request, 'ticketapp/user-accounts/signin.html', context)
+        else:
+            form = UserLoginForm()
+            context={"error": "You are not logged in",'form':form}
+            return render(request, 'ticketapp/user-accounts/signin.html', context)
 
 
 
@@ -396,11 +433,7 @@ def bookticket(request,pk):
                         }
             return render(request, 'ticketapp/bookTicket.html',context)
     else:
-        if request.user.is_active:
-          form= bookTicketForm(initial={'customer_email':request.user.email})  
-        if request.user.is_superuser:
-            form = bookTicketForm()
-        
+        form= bookTicketForm()  
         return render(request, 'ticketapp/bookTicket.html',context={'schedule': schedule,'form':form,'Tickets':schedule.availableseats,'Price':schedule.price })
 
 
