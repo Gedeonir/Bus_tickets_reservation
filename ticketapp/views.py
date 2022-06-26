@@ -446,8 +446,12 @@ def bookticket(request,pk):
                         }
             return render(request, 'ticketapp/bookTicket.html',context)
     else:
-        form= bookTicketForm(initial={'customer_email': request.user.email}) 
-        return render(request, 'ticketapp/bookTicket.html',context={'schedule': schedule,'form':form,'Tickets':schedule.availableseats,'Price':schedule.price })
+        if request.user.is_authenticated:
+            form= bookTicketForm(initial={'customer_email': request.user.email}) 
+            return render(request, 'ticketapp/bookTicket.html',context={'schedule': schedule,'form':form,'Tickets':schedule.availableseats,'Price':schedule.price })
+        else:
+            form= bookTicketForm()
+            return render(request, 'ticketapp/bookTicket.html',context={'schedule': schedule,'form':form,'Tickets':schedule.availableseats,'Price':schedule.price })
 
 def cancelBooking(request,pk):
     booking = bookings.objects.filter(booking_id=pk)
