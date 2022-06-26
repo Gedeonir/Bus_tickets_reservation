@@ -1,6 +1,6 @@
 
 from pickle import TRUE
-from tkinter import CASCADE
+from django.db.models.deletion import CASCADE
 import uuid
 from django.db import models
 from django.urls import reverse
