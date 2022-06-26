@@ -1,15 +1,31 @@
-{% extends "ticketapp/header.html" %}
+{% extends "ticketapp/base.html" %}
 
-{% block content %}
-<div class="main-logged-in">
-  {% include 'ticketapp/topbar.html' %}
-  <h1>Delete booking</h1>
+{% block body %}
 
-  <p>Are you sure you want to delete the schedule:<br><b> {{ bookings.booking_id}}?</b></p>
+<div class="content">
+  {% if user.is_authenticated %}
+  <div class="booking-section">
+    <div class="bookingForm">
+      <div class="booking-header">
+        <p>confirm to cancelling booking</p>
+        <div class="booklink">
+          <a href=" {% url 'booking-list' %}">go back</a>
+        </div>      
+      </div>
 
-  <form action="" method="POST">
-    {% csrf_token %}
-    <button type="submit" class="btn m-2 buttons"><i class="bi bi-trash"></i>Yes,delete</button>
-  </form>
+      <p>Are you sure you want to cancel this booking: {{ bookings.From}}-{{bookings.To}}?</p>
+
+      <form action="" method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+          <button type="submit" class="">Yes,cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% else %}
+  <p class="error-text">Acess denied. you must login first <a href='{% url 'signin' %}'>here</a></p>
+  {% endif %}
 </div>
 {% endblock %}

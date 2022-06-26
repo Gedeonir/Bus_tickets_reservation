@@ -1,8 +1,23 @@
 {% extends "ticketapp/base.html" %}
-
-{% block body%}
-
+{% block body %}
+{% if request.user.is_staff %}
+<div class="admin-body-contents">
+  <div class="topbar">
+    <button class="navbar-toggler" type="button">
+      <span class="navbar-toggler-icon">
+        <i class="bi bi-list menu"></i>
+        <i class="bi bi-x-lg close"></i>
+      </span>
+    </button>
+    <div class="user">
+      <a href=""><i class="bi bi-person"></i></a>     		    	
+      <a href=""><i class="bi bi-bell"></i></a>
+      <a href="{% url 'signout' %}"><i class="bi bi-box-arrow-in-left"></i></a>    
+    </div>
+  </div>
+{% else %}
 <div class="content">
+  {% endif %}
   <div class="">
     <div class ="input-group">
       {% load static %}
@@ -19,6 +34,8 @@
         {% if request.user.is_staff %}
         <div class="booklink">
           <a href=" {% url 'driver-update' drivers.driver_id %}"> <i class="bi bi-pencil-square"></i>Edit</a>
+        </div>
+        <div class='booklink'>
           <a href="{% url 'driver-delete' drivers.driver_id%}"><i class="bi bi-trash"></i>Delete</a>
         </div>
         {% endif %}
@@ -35,6 +52,9 @@
         <label for="contact">Contact:</label>{{drivers.contact}}
       </div>
       <div class ="input-group">
+        <label for="gender">Gender:</label>{{drivers.gender}}
+      </div>
+            <div class ="input-group">
         <label for="gender">Gender:</label>{{drivers.gender}}
       </div>
     </div>

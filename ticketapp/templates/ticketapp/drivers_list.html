@@ -1,13 +1,31 @@
 {% extends "ticketapp/base.html" %}
-
 {% block body %}
+{% if request.user.is_staff %}
+<div class="admin-body-contents">
+  <div class="topbar">
+    <button class="navbar-toggler" type="button">
+      <span class="navbar-toggler-icon">
+        <i class="bi bi-list menu"></i>
+        <i class="bi bi-x-lg close"></i>
+      </span>
+    </button>
+    <div class="user">
+      <a href=""><i class="bi bi-person"></i></a>     		    	
+      <a href=""><i class="bi bi-bell"></i></a>
+      <a href="{% url 'signout' %}"><i class="bi bi-box-arrow-in-left"></i></a>    
+    </div>
+  </div>
+{% else %}
 <div class="content">
+  {% endif %}
   {%if user.is_authenticated%}
   {%if user.is_staff%}
   <div class="booking-section">
     <div class="booking-header">
       <p>Drivers</p>
-      <a href="{% url 'driver-create' %}"><i class="bi bi-plus-lg"></i> Add new driver</a>
+      <div class='booklink'>
+        <a href="{% url 'driver-create' %}"><i class="bi bi-plus-lg"></i> Add driver</a>
+      </div>
     </div>
     <div class="results">
       {% for row in drivers_list  %}
@@ -18,7 +36,8 @@
           </div>
           <h6>Photo</h6>
           <div class="card-text">
-            <img src="" alt="">
+            {% load static %}
+            <img src="{% static 'media/Default.png' %}" alt="">
           </div>
         </div>
         <div class="searchcard">
@@ -44,12 +63,6 @@
           <h6>Gender</h6>
           <div class="card-text">
             <label for="gender">{{row.gender}}</label>
-          </div>
-        </div>
-        <div class="searchcard">
-          <h6>Category</h6>
-          <div class="card-text">
-            <label for="Category"></label>
           </div>
         </div>
         <div class="full-details">

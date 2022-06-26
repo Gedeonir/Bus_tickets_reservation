@@ -4,6 +4,7 @@ from tkinter import CASCADE
 import uuid
 from django.db import models
 from django.urls import reverse
+import secrets
 
 # Create your models here.
 class User(models.Model):
@@ -97,12 +98,14 @@ class bookings(models.Model):
     schedule = models.ForeignKey(schedules,null=True, on_delete=models.CASCADE,blank=True)
     From=models.CharField(max_length=30,default='null')
     To=models.CharField(max_length=30,default='null')
+    Bus=models.CharField(max_length=10,default='null')
     travelDate = models.DateField(null=True)
     travelTime = models.TimeField(null=True)
     tickets = models.IntegerField(default=1)
     total_amount_to_pay = models.CharField(max_length=30)
     status = models.CharField(choices=ticket_statuses, default=BOOKED, max_length=14)
     bookingTime = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    ticket_code = models.CharField(max_length=6,default=secrets.token_hex(nbytes=3))
 
     def __str__(self):
         return self.customer_email

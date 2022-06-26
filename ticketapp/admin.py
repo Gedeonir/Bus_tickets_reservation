@@ -23,4 +23,4 @@ class customersAdmin(admin.ModelAdmin):
 
 @admin.register(bookings)
 class bookingsAdmin(admin.ModelAdmin):
-    list_display = ('schedule','customer_email','From','To','travelDate','travelTime','tickets','total_amount_to_pay')
+    list_display = ('schedule','customer_email','From','To','travelDate','travelTime','tickets','total_amount_to_pay','bookingTime')

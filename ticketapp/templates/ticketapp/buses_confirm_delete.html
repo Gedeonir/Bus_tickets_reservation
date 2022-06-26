@@ -1,15 +1,50 @@
-{% extends "ticketapp/header.html" %}
+{% extends "ticketapp/base.html" %}
+{% block body %}
+{% if request.user.is_staff %}
+<div class="admin-body-contents">
+  <div class="topbar">
+    <button class="navbar-toggler" type="button">
+      <span class="navbar-toggler-icon">
+        <i class="bi bi-list menu"></i>
+        <i class="bi bi-x-lg close"></i>
+      </span>
+    </button>
+    <div class="user">
+      <a href=""><i class="bi bi-person"></i></a>     		    	
+      <a href=""><i class="bi bi-bell"></i></a>
+      <a href="{% url 'signout' %}"><i class="bi bi-box-arrow-in-left"></i></a>    
+    </div>
+  </div>
+{% else %}
+<div class="content">
+  {% endif %}
+  {% if user.is_authenticated %}
+  {% if request.user.is_staff %}
+  <div class="booking-section">
+    <div class="bookingForm">
+      <div class="booking-header">
+        <p>confirm to Delete bus</p>
+        <div class="booklink">
+          <a href=" {% url 'bus-detail' buses.bus_id %}">Cancel</a>
+        </div>      
+      </div>
+      
+      <p>Are you sure you want to delete bus: {{ buses.bus_name}}-{{buses.plate_number}}?</p>
 
-{% block content %}
-<div class="main-logged-in">
-  {% include 'ticketapp/topbar.html' %}
-  <h1>Delete schedule</h1>
-
-  <p>Are you sure you want to delete the schedule: {{ buses.bus_name}}-{{buses.plate_number}}?</p>
-
-  <form action="" method="POST">
-    {% csrf_token %}
-    <button type="submit" class="buttons"><i class="bi bi-trash"></i>Yes,delete</button>
-  </form>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+          <button type="submit" class="">Yes,delete</button>
+        </div>
+      </form>
+    </div>
+    </div>
+  {% else %}
+  <p class="error-text">Acess forbiden 405</p>
+  {% endif %}
+  {% else %}
+  <p class="error-text">Acess denied. you must login first <a href='{% url 'signin' %}'>here</a></p>
+  {% endif %}
 </div>
 {% endblock %}
+

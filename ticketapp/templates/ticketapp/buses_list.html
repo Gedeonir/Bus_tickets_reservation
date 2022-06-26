@@ -1,49 +1,105 @@
-{% extends "ticketapp/header.html" %}
-
-{% block content %}
-<div class="main-logged-in">
-  {% include 'ticketapp/topbar.html' %}
-  <div class="row">
-  <div class=" buses_list col-12">
-    <div class="header">
-      <h1>Buses List</h1>
-      <a href="{% url 'bus-create' %}"><i class="bi bi-plus-lg"></i> Add new Bus</a>
-    </div>  
-    {% if buses_list %}
-    <table>
-      <thead>
-        <tr>
-          <td>ID</td>
-          <td>Bus name</td>
-          <td>Plate number</td>
-          <td>Capacity</td>
-          <td>Brand</td>
-        </tr>
-      </thead> 
-     
-      <tbody>
-        {% for bus in buses_list %}
-        <tr>
-          <td>{{bus.bus_id}}</td>
-          <td><a href="{{ bus.get_absolute_url }}">{{ bus.bus_name }}</a></td>
-          <td> {{bus.plate_number}}</td>
-          <td> {{bus.numberofseats}} </td>
-          <td>{{bus.brand}}</td>
-          <td>{{schedule.schedule_date}}</td>
-          <td>{{schedule.bus}}</td>
-          <td>{{schedule.driver}}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>     
-      {% else %}
-        <p>no Buses available registered yet</p>
-      {% endif %}
+{% extends "ticketapp/base.html" %}
+{% block body %}
+{% if request.user.is_staff %}
+<div class="admin-body-contents">
+  <div class="topbar">
+    <button class="navbar-toggler" type="button">
+      <span class="navbar-toggler-icon">
+        <i class="bi bi-list menu"></i>
+        <i class="bi bi-x-lg close"></i>
+      </span>
+    </button>
+    <div class="user">
+      <a href=""><i class="bi bi-person"></i></a>     		    	
+      <a href=""><i class="bi bi-bell"></i></a>
+      <a href="{% url 'signout' %}"><i class="bi bi-box-arrow-in-left"></i></a>    
     </div>
   </div>
-</div>
-</div>
+{% else %}
+<div class="content">
+  {% endif %}
+  {%if user.is_authenticated%}
+  {%if user.is_staff%}
+  <div class="booking-section">
+    <div class="booking-header">
+      <p>Buses</p>
+      <div class='booklink'>
+        <a href="{% url 'bus-create' %}"><i class="bi bi-plus-lg"></i> Add bus</a>
+      </div>
+    </div>
+    <div class="results">
+      {% for row in buses_list  %}
+      <div class="searchcardbox">
+        <div class="searchcard">
+          <div class="searchcard-image">
 
+          </div>
+          <h6>Photo</h6>
+          <div class="card-text">
+            {% load static %}
+            <img src="{% static 'media/Bannerbackground.jpg' %}">
+          </div>
+        </div>
+        <div class="searchcard">
+          <h6>Bus</h6>
+          <div class="card-text">
+            <label for="Names">{{row.bus_name }}</label>
+          </div>
+        </div>
+        <div class="searchcard">
+          <h6>Plate number</h6>
+          <div class="card-text">
+            <label for="email">{{row.plate_number}}</label>
+          </div>
+          
+        </div>
+        <div class="searchcard">
+          <h6>Capacity</h6>
+          <div class="card-text">
+            <label for="contact">{{row.numberofseats}}</label>
+          </div>
+        </div>
+        <div class="searchcard">
+          <h6>Brand</h6>
+          <div class="card-text">
+            <label for="gender">{{row.brand}}</label>
+          </div>
+        </div>
+        <div class="full-details">
+          <a href="{{ row.get_absolute_url }}">View full details</a>
+        </div> 
+      </div>  
+      
+      {% endfor %}
+      {% for bus in page_obj %}
+      {{ bus.full_name|upper }}<br>
+      {% endfor %}
 
-  
+      <div class="pagination">
+          <span class="step-links">
+              {% if page_obj.has_previous %}
+                  {% comment %} <a href="?page=1"> first</a> {% endcomment %}
+                  <a href="?page={{ page_obj.previous_page_number }}">&laquo; previous</a>
+              {% endif %}
+
+              <span class="current">
+                  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+              </span>
+
+              {% if page_obj.has_next %}
+                  <a href="?page={{ page_obj.next_page_number }}">next &raquo; </a>
+              {% endif %}
+          </span>
+      </div>
+        
+    </div>
+  </div>
+  {% else %}
+  <p class="error-text">Acess forbiden 405</p>
+  {% endif %}
+  {% else %}
+  <p class="error-text">Acess denied. you must login first <a href='{% url 'signin' %}'>here</a></p>
+  {% endif %}
+</div>  
+ 
 {% endblock %}

@@ -24,7 +24,7 @@ body{
 .content{
     display: flex;
     justify-content: center;
-    padding: 16px;
+    padding: 10px;
 }
 
 /* Base css */
@@ -713,6 +713,7 @@ body{
     border-radius: 5px;
     padding: 4px;
     margin: 0 5px;
+    width: 100%;
 }
 .newsletter form button{
     width: 100px;
@@ -743,9 +744,9 @@ body{
     width: 100%;
     color: var(--error);
     border-radius: 10px;
-    padding-left: 10px;
+    text-align: center;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 20px;
 }
 .search_title,.content_title{
     display: flex;
@@ -804,50 +805,73 @@ body{
     border: 1px solid var(--black);
 }
 .results{
-    margin: 12px 0;
-    padding: 12px;
+    margin: 5px 0;
+    padding: 8px;
 }
-.results-title{
-    display: block;
-    text-align: left;
+
+.results table{
+    padding: 6px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--black2);
+    border-radius: 5px;
 }
-.results-title .buses{
-    display: flex;
-    color: var(--input);
-    padding: 12px;
-}
-.results-title .buses label{
+.results table thead{
     font-weight: 700;
-    margin: 0 2px 0 0;
-    font-size: 1.0em;
+    padding: 6px;
     text-transform: uppercase;
-    padding: 6px;
+    color: var(--chocolate);
+    font-size: 12px;
 }
-.results-title .buses p{
-    padding: 6px;
-    font-size: 1.0em;
+.results table tbody{
+    margin-top: 20px;
+    color: var(--input);
+}
+.results table thead td{
+    padding: 10px;
+}
+.results table tbody td{
+    padding: 10px;
+    border-bottom: 1px solid var(--input);
+}
+.results table tbody td .cancel{
+    color: var(--error) !important;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.results table tbody td .tickets{
+    color: green;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 700;
 }
 .searchcardbox{
     display: flex;
     justify-content: space-between;
     margin: 6px 0 24px;
-    padding: 12px;
+    padding: 6px;
     box-shadow: 0 0 1px;
     border-radius: 5px;
 }
 .searchcard{
     width: 100%;
-    height: 100px;
-    margin: 0 5px;
+    height: 150px;
+    margin: 5px 5px;
     padding: 6px;
     text-align: center;
     display: block;
 }
 .searchcard h6,.searchcard .card-text h7{
     color: var(--input);
+    margin-bottom: 5px;
+    text-transform: uppercase;
 }
 .searchcard .card-text{
-    font-size: 12px;
+    font-size: 16px;
     padding: 6px;
     height: 100%;
     width: 100%;
@@ -862,14 +886,28 @@ body{
     text-align: left!important;
     display: block;
 }
+.searchcard .card-text img{
+    width: 150px;
+    height: 120px;
+    border-radius: 20px;
+}
 .full-details{
     width: 100%;
-    padding: 12px;
+    padding: 6px;
     height: 100%;
     margin: auto;
+    position: relative;
     text-align: center;
 }
-
+.full-details a{
+    text-decoration: none;
+    background: var(--chocolate);
+    padding: 6px;
+    color: var(--white);
+    text-transform: uppercase;
+    border-radius: 5px;
+    font-size: 13px;
+}
 .schedule-details{
     padding: 12px;
     display: block;
@@ -960,7 +998,7 @@ body{
 .booking-section,.payement-section{
     width: 100%;
     height: 100%;
-    padding: 12px;
+    padding: 6px;
     border-radius: 10px;
     margin: 6px;
     display: block;
@@ -984,7 +1022,7 @@ body{
     width: 100%;
     text-transform: uppercase;
     font-weight: 500;
-    margin-bottom: 24px;
+    margin-bottom: 14px;
     color: var(--chocolate);
 }
 .booking-header .price{
@@ -1027,13 +1065,72 @@ body{
 }
 .bookingForm,.signupForm{
     width: 800px;
-    box-shadow: 0 4px 20px rgb(0,0,0,0.08);
+    box-shadow: 0 14px 20px rgb(0,0,0,0.08);
     padding: 10px;
     border-radius: 5px;
     margin: 24px auto;
 
 }
 
+.bookingForm p{
+    padding: 20px;
+    font-weight: 700;
+
+}
+
+.ticket{
+    box-shadow: 0 14px 20px rgb(0,0,0,0.08);
+    padding: 12px;
+    width: 350px;
+    height: 100%;
+    margin: 22px auto;
+    display: block;
+}
+
+.ticket .company{
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--chocolate);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.ticket_info{
+    display: block;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.driver{
+    border-top: 1px dashed black ;
+    padding-top: 10px;
+}
+.ticket_info .title{
+    display: grid;
+    grid-template-columns: 100px 200px;
+    text-align: left;
+    padding: 6px;
+    font-size: 12px;
+}
+
+.ticket_info .title label{
+    font-weight: 700;
+    font-size: 10px;
+}
+
+.ticket_info .title p{
+    text-transform: initial;
+}
+
+.ticket_info footer{
+    color: var(--chocolate);
+    text-transform: uppercase;
+    position: relative;
+    text-align: center;
+    font-size: 10px;
+}
 .payement-methods{
     display: block;
 
@@ -1047,5 +1144,268 @@ body{
     width:400px;
     height: 400px;
     padding: 12px;
+    border-radius: 50%;
+}
+
+
+/* operator css */
+
+.admin-body{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    background-color: #050A30;
+}
+.sidebar{
+  position: fixed;
+  width: 300px;
+  height: 100%;
+  background:var(--chocolate) ;
+  border-left:10px solid var(--chocolate) ;
+  transition: 0.5s;
+  overflow: hidden;
+  left: 0;
+  top: 0;
+}
+
+.sidebar ul{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.sidebar ul li{
+  position: relative;
+  list-style: none;
+  border-bottom-left-radius: 60px;
+  border-top-left-radius: 60px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-weight: 700;
+  font-size: 20px;
+  padding: 4px;
+}
+.sidebar ul li.active{
+    background: var(--white);
+}
+.sidebar ul li:hover{
+  background: var(--white);
+}
+.sidebar ul li:hover:nth-child(1){
+    background: transparent;
+}
+.sidebar ul li a{
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  text-decoration: none;
+  color: var(--white);
+  
+}
+.sidebar ul li.active a{
+    color: var(--chocolate);
+}
+.sidebar ul li:hover a{
+  color: var(--chocolate);
+}
+.sidebar ul li a .icon{
+  position: relative;
+  display: block;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+}
+.sidebar ul li a .icon i{
+  font-size: 1.75em;
+}
+.sidebar ul li a .icon img{
+    width: 40px;
+    height: 40px;
+    position: relative;
+    margin-top: 12px;
+}
+.sidebar ul li a .title{
+  position: relative;
+  display: block;
+  padding: 0 10px;
+  height: 60px;
+  line-height: 60px;
+  text-align: start;
+  white-space: nowrap;
+  width: 100%;
+
+}
+.admin-body-contents{
+  position: absolute;
+  width: calc(100% - 300px);
+  left: 300px;
+  min-height: 100vh;
+  background: var(--white);
+  transition: 0.5s;
+  top: 0;
+}
+.topbar{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 6px;
+    background: var(--title);
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--admin-icons);
+    top: 0;
+}
+.topbar .navbar-toggler{
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+.admin-body-contents.active  .navbar-toggler .menu{
+    display: none;
+}
+.topbar .navbar-toggler .close{
+    display: none;
+}
+.admin-body-contents.active .navbar-toggler .close{
+    display: block;
+}
+
+.topbar .navbar-toggler i{
+      color: var(--black);
+      font-size: 1.85em;
+  }
+
+.user{
+    width: 200px;
+    height: 50px;
+    display: flex;
+    justify-content: space-around;
+    overflow: hidden;
+    object-fit: cover;
+    padding: 4px;
+    margin-left: auto;
+}
+.user a{
+     padding: 6px;
+     margin: 0 14px;
+     text-decoration: none;
+     color: var(--admin-icons);
+}
+.user a:hover{
+    color: var(--black);
+    transition: 0.6s;
+}
+.user a i{
+    font-size: 1.3em;
+}
+
+.admin-body-contents .cardbox{
+position: relative;
+width: 100%;
+height: 100%;
+padding: 10px;
+display: flex;
+justify-content: space-around;
+
+}
+.admin-body-contents .cardbox .card{
+  position: relative;
+  width: 200px;
+  padding:10px;
+  border-radius: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: 0 4px 25px rgb(0,0,0,0.08);
+  margin-top: 10px;
+  height: 100%;
+  background: var(--title);
+}
+.admin-body-contents .cardbox .card:hover{
+  background: var(--white);
+  transition: 0.7s;
+}
+
+.admin-body-contents .cardbox .card .numbers{
+  position: relative;
+  font-weight: 700;
+  font-size: 1.7em;
+  color: var(--input);
+  text-align: left;
+}
+.admin-body-contents .cardbox .card:hover .numbers{
+  color: var(--chocolate);
+}
+.admin-body-contents .cardbox .card .card-name{
+  color: var(--chocolate);
+  font-size: 0.8em;
+  margin-top: 2px;
+  text-align: left;
+  text-transform: capitalize;
+}
+.admin-body-contents .cardbox .card:hover .card-name{
+  color: var(--input);
+}
+.admin-body-contents .cardbox .card .icon{
+  font-size: 2.0em;
+  color:var(--input);
+}
+.admin-body-contents .cardbox .card:hover .icon{
+  color: var(--chocolate);
+}
+
+.recent-bookings{
+  max-height: 300px;
+  background: var(--white);
+  padding: 15px;
+  box-shadow: 0 7px 25px rgb(0,0,0,0.08);
+  border-radius: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  
+}
+.recent-customers{
+    max-height: 300px;
+    background: var(--white);
+    padding: 15px;
+    box-shadow: 0 7px 25px rgb(0,0,0,0.08);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    overflow-y: hidden;
+} 
+.recent-customers ul li{
+    padding: 5px;
+    margin-bottom: 12px;
+    list-style: none;
+    display: flex;
+}
+.recent-customers ul li .profile-image{
+    padding: 5px;
+}
+.recent-customers ul li .profile-name{
+    width: 100%;
+}
+.recent-customers ul li .profile-name .name{
+    width: 100%;
+    color: var(--darkblue);
+    font-weight: 700;
+    font-size: 1.1em;
+}
+.recent-customers ul li .profile-name .email-address{
+    color: var(--black);
+    font-size: 0.9em;
+    margin-top: 1px;
+}
+.recent-customers ul li img{
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
 }

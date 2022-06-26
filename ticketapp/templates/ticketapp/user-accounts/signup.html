@@ -5,11 +5,11 @@
     
     <form action="{% url 'signup' %}" method="post" class="signupForm">
       <div class="booking-header">
-        <p>Fill in with your personal information</p>
+        <p>Register a new User</p>
       </div>
       {% csrf_token %}
         {{ success }}
-        <p class="error-text">
+        {% comment %} <p class="error-text"> {% endcomment %}
           {{error}}
           {% for field in form %}
           <div class="input-group">
@@ -23,7 +23,7 @@
             <p class="error-text">{{ error }}</p>
           {% endfor %}
           {% endfor %}
-        </p>
+        {% comment %} </p> {% endcomment %}
         <div class="input-group">
           <label>Already have an account?<a href="{% url 'signin' %}">Log in</a></label>
         </div>

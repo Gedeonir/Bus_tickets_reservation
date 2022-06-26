@@ -1,0 +1,73 @@
+{% load static %}
+<link rel="stylesheet" type='text/css' href="{% static '/css/style.css' %}">
+{% autoescape off %}
+<div class="ticket">
+    <div class="company">
+        <label> Anonymous ltd</label>
+    </div>
+    <div class="ticket_info">
+        <div class="title">
+            <label>Ticket code:</label>
+            <p>{{booking.ticket_code}}<p>
+        </div>
+        <div class="title">
+            <label>Schedule:</label>
+            <p>{{booking.From}} - {{booking.To}}<p>
+        </div>
+        <div class="title">
+            <label>Customer:</label>
+            <p>{{booking.customer_email}}<p>
+        </div>
+        <div class="title">
+            <label>Date:</label>
+            <p>{{booking.travelDate}}<p>
+        </div>
+        <div class="title">
+            <label>Time:</label>
+            <p>{{booking.travelTime}}<p>
+        </div>
+        <div class="title">
+            <label>Price:</label>
+            <p>{{booking.total_amount_to_pay}}<p>
+        </div>
+        <div class="title">
+            <label>Plate number:</label>
+            <p>{{booking.Bus}}<p>
+        </div>
+
+        <div class="title">
+            <label>Booking time:</label>
+            <p>{{booking.bookingTime}}<p>
+        </div>
+        <footer>Powered by bustickets.online.com</footer>
+    </div>
+
+    <div class="ticket_info driver">
+        <div class="title">
+            <label>Ticket code:</label>
+            <p>{{booking.ticket_code}}<p>
+        </div>
+        <div class="title">
+            <label>Schedule:</label>
+            <p>{{booking.From}} - {{booking.To}}<p>
+        </div>
+        <div class="title">
+            <label>Date:</label>
+            <p>{{booking.travelDate}}<p>
+        </div>
+        <div class="title">
+            <label>Time:</label>
+            <p>{{booking.travelTime}}<p>
+        </div>
+        <div class="title">
+            <label>Plate number:</label>
+            <p>{{booking.Bus}}<p>
+        </div>
+        <div class="title">
+            <label>Booking time:</label>
+            <p>{{booking.bookingTime}}<p>
+        </div>
+        <footer>Powered by bustickets.online.com</footer>
+    </div>
+</div>
+{% endautoescape %}

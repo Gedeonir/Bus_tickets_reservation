@@ -12,6 +12,60 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 </head>
 <body>
+    {% if request.user.is_staff %}
+    <div class="admin-body">
+        {% block sidebar %}
+        <div class="sidebar">
+			<ul>
+				<li>
+					<div class="logo">
+						{% load static %}
+						<img src="{% static 'media/Logo.png' %}" alt="logo">
+					</div>
+				</li>
+				<li>
+					<a href="{% url 'home' %}">
+						<span class="icon"><i class="bi bi-house"></i></span>
+						<span class="title">Dashboard</span>
+					</a>
+				</li>
+				<li>
+					<a href="{% url 'schedule-list' %}">
+						<span class="icon"><i class="bi bi-chat-square"></i></span>
+						<span class="title">Schedules</span>
+					</a>
+				</li>
+				<li>
+					<a href="{% url 'driver-list' %}">
+						<span class="icon"><i class="bi bi-person"></i></span>
+						<span class="title">Drivers</span>
+					</a>
+				</li>
+				<li>
+					<a href="{% url 'bus-list' %}">
+						<span class="icon"><i class="bi bi-truck"></i></span>
+						<span class="title">Buses</span>
+					</a>
+				</li>
+				<li>
+					<a href="{% url 'booking-list' %}">
+						<span class="icon"><i class="bi bi-book"></i></span>
+						<span class="title">Bookings</span>
+					</a>
+				</li>
+				<li>
+					<a href="">
+						<span class="icon"><i class="bi bi-gear"></i></span>
+						<span class="title">Payements</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+        
+        {% endblock sidebar %}
+	</div>
+
+    {% else %}
     {%block header%}
     <div class="header">
         <div class="logo">
@@ -58,18 +112,8 @@
                     <li>
                         <a href="{% url 'schedule-list' %}">Schedules</a>
                     </li>
-                    {% if user.is_authenticated %}
-                    {% if request.user.is_staff %}
                     <li>
-                        <a href="{% url 'driver-list' %}">Drivers</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'schedule-list' %}">Buses</a>
-                    </li>
-                    {% endif %}
-                    {% endif %}
-                    <li>
-                        <a href="">manage bookings</a>
+                        <a href="{% url 'booking-list' %}">manage bookings</a>
                     </li>
                     <li>
                         <a href="">explore places</a>
@@ -80,6 +124,7 @@
     </div>
     
     {%endblock%}
+    {% endif %}
     {% block  body%}
     {% endblock  %}
     {% include 'ticketapp/footer.html' %}

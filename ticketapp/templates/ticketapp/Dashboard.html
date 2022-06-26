@@ -1,0 +1,101 @@
+{% extends 'ticketapp/base.html' %}
+
+{% block body %}
+<div class="admin-body-contents">
+  <div class="topbar">
+    <button class="navbar-toggler" type="button">
+      <span class="navbar-toggler-icon">
+        <i class="bi bi-list menu"></i>
+        <i class="bi bi-x-lg close"></i>
+      </span>
+    </button>
+    <div class="user">
+      <a href=""><i class="bi bi-person"></i> </a>     		    	
+      <a href=""><i class="bi bi-bell"></i></a>
+      <a href="{% url 'signout' %}"><i class="bi bi-box-arrow-in-left"></i></a>    
+    </div>
+  </div>
+  <div class="cardbox">
+    <div class="card">
+    <div>
+      <div class="numbers">n</div>
+      <div class="card-name">Daily visits</div>
+    </div>
+    <div class="icon"><i class="bi bi-eye"></i></div>
+    </div>
+    <div class="card">
+    <div>
+      <div class="numbers">{{num_of_bookings}} </div>
+      <div class="card-name">Bookings made</div>
+    </div>
+    <div class="icon"><i class="bi bi-intersect"></i></div>
+    </div>
+    <div class="card">
+    <div>
+      <div class="numbers">{{num_of_payements}}</div>
+      <div class="card-name">Tickets sold</div>
+    </div>
+    <div class="icon"><i class="bi bi-reception-2"></i></div>
+    </div>
+    <div class="card">
+    <div>
+      <div class="numbers">n</div>
+      <div class="card-name">Transport companies</div>
+    </div>
+    <div class="icon"><i class="bi bi-truck"></i></div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="recent-bookings">
+      <div class="booking-section">
+        <div class="">
+          <p>Recent bookings</p>
+          
+        </div>
+        <div class="results">
+          {% if recentbookings %}
+          <table>
+            <thead>
+              <tr>
+                <td>Ticket code</td>
+                <td>Email</td>
+                <td>schedule</td>
+                <td>date</td>
+                <td>time</td>
+                <td>Tickets</td>
+                <td>price</td>
+                <td>Status</td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in recentbookings %}
+              <tr>
+                <td>{{row.ticket_code}}</td>
+                <td>{{row.customer_email}}</td>
+                <td> {{row.schedule}} </td>
+                <td> {{row.travelDate}} </td>
+                <td> {{row.travelTime}} </td>
+                <td>{{row.tickets}}</td>
+                <td>{{row.total_amount_to_pay}}</td>
+                <td>{{row.status}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="trip-links"><a href=" {% url 'booking-list' %} ">see all</a></div>
+          {% else %}
+          <p>no booking yet</p>
+          {% endif %}
+        </div>
+        {% for schedule in page_obj %}
+        {{ schedule.full_name|upper }}<br>
+        {% endfor %}      
+      </div>
+    </div>
+  </div>
+   
+
+</div>
+{% endblock %}
+
+

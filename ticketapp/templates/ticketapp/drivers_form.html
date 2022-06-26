@@ -1,15 +1,52 @@
-{% extends "ticketapp/header.html" %}
+{% extends "ticketapp/base.html" %}
+{% block body %}
+{% if request.user.is_staff %}
+<div class="admin-body-contents">
+  <div class="topbar">
+    <button class="navbar-toggler" type="button">
+      <span class="navbar-toggler-icon">
+        <i class="bi bi-list menu"></i>
+        <i class="bi bi-x-lg close"></i>
+      </span>
+    </button>
+    <div class="user">
+      <a href=""><i class="bi bi-person"></i></a>     		    	
+      <a href=""><i class="bi bi-bell"></i></a>
+      <a href="{% url 'signout' %}"><i class="bi bi-box-arrow-in-left"></i></a>    
+    </div>
+  </div>
+{% else %}
+<div class="content">
+  {% endif %}>
+  <div class="booking-section">
+    <form action="" method="post" class="bookingForm">
+      <div class="booking-header">
+        <p>Fill in with Drivers information</p>
+      </div>
+      {% csrf_token %}
+      <div class="input-group">
+        <label for="Names" >{{ form.driver_names.label}}</label>
+        {{ form.driver_names}}
+      </div>
 
-{% block content %}
-<div class="main-logged-in">
-  {% include 'ticketapp/topbar.html' %}
+      <div class="input-group">
+        <label for="email" >{{ form.email.label}}</label>
+        {{ form.email}}
+      </div>
 
-  <form action="" method="post">
-    {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
-    <button type="submit" class="btn m-2 buttons"><i class="bi bi-save2"></i>Save</button>
-  </form>
+      <div class="input-group">
+        <label for="contact" >{{ form.contact.label}}</label>
+        {{ form.contact}}
+      </div>
+      <div class="input-group">
+        <label for="gender" >{{ form.gender.label}}</label>
+        {{ form.gender}}
+      </div>
+
+      <div class="input-group">
+        <button type="submit" class="btn m-2 buttons">Save</button>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}

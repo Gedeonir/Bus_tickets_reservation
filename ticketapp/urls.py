@@ -1,6 +1,8 @@
 from django.urls import include, path
 from . import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth import views as auth_views
+from .forms import UserPasswordResetForm
 
 
 urlpatterns = [
@@ -10,8 +12,8 @@ urlpatterns = [
     path('schedules/', views.schedulesListView.as_view(), name='schedule-list' ),
     path('schedules/<str:pk>', views.schedulesDetailView.as_view(), name='schedule-detail'),
     path('schedules/create/', views.scheduleCreate.as_view(), name='schedule-create'),
-    path('schedules/<int:pk>/update/', views.scheduleUpdate.as_view(), name='schedule-update'),
-    path('schedules/<int:pk>/delete/', views.deleteSchedules.as_view(), name='schedule-delete'),
+    path('schedules/<str:pk>/update/', views.scheduleUpdate.as_view(), name='schedule-update'),
+    path('schedules/<str:pk>/delete/', views.deleteSchedules.as_view(), name='schedule-delete'),
     path('schedules/<str:pk>/bookticket', views.bookticket, name='bookTicket'),
     # path('schedules/<str:pk>/confirmbooking', views.confirmBooking, name='confirmbooking'),
 
@@ -23,8 +25,8 @@ urlpatterns = [
 
     path('bookings/', views.bookingsListView.as_view(), name='booking-list' ),
     path('bookings/<str:pk>', views.bookingsDetailView.as_view(), name='booking-detail'),
-    path('bookings/<str:pk>/update/', views.bookingUpdate.as_view(), name='booking-update'),
-    path('bookings/<str:pk>/delete/', views.deletebooking.as_view(), name='booking-delete'),
+    path('bookings/<str:pk>/cancel/', views.cancelBooking, name='cancelbooking'),
+    path('bookings/<str:pk>/ticket/',views.viewTicketPdf,name='viewticket'), 
 
     path('customers/', views.customersListView.as_view(), name='customer-list' ),
     path('customers/<str:pk>', views.customersDetailView.as_view(), name='customer-detail'),
@@ -47,13 +49,17 @@ urlpatterns = [
 
     
 
-    path('signup',views.signup, name='signup'),
-    path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',  
-        views.activate_account, name='activate'), 
-    path('login', views.signin, name='signin' ),
-    path('signout', views.signout, name="signout"),
+    path('accounts/signup',views.signup, name='signup'),
+    path('accounts/activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',  
+        views.activate_account, name='activate'),
+    path('accounts/reset_password/', auth_views.PasswordResetView.as_view(template_name ="ticketapp/user-accounts/password_reset_form.html",form_class=UserPasswordResetForm), name ='reset_password'),
+    path('accounts/reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name ="ticketapp/user-accounts/password_reset_done.html"), name ='password_reset_done'),
+    path('accounts/reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name = "ticketapp/user-accounts/password_reset_confirm.html"), name ='password_reset_confirm'),
+    path('accounts/reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(), name ='password_reset_complete'),  
+    path('accounts/login', views.signin, name='signin' ),
+    path('accounts/signout', views.signout, name="signout"),
 
-    path('aboutus', views.about, name='aboutus' ),
+    # path('aboutus', views.about, name='aboutus' ),
 ]
 urlpatterns += staticfiles_urlpatterns()
 

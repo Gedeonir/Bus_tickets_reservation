@@ -1,12 +1,38 @@
-{% extends 'ticketapp/base.html' %}
+{% extends "ticketapp/base.html" %}
 {% block body %}
+{% if request.user.is_staff %}
+<div class="admin-body-contents">
+  <div class="topbar">
+    <button class="navbar-toggler" type="button">
+      <span class="navbar-toggler-icon">
+        <i class="bi bi-list menu"></i>
+        <i class="bi bi-x-lg close"></i>
+      </span>
+    </button>
+    <div class="user">
+      <a href=""><i class="bi bi-person"></i></a>     		    	
+      <a href=""><i class="bi bi-bell"></i></a>
+      <a href="{% url 'signout' %}"><i class="bi bi-box-arrow-in-left"></i></a>    
+    </div>
+  </div>
+{% else %}
+<div class="content">
+  {% endif %}
   <div class="schedule-details">
     <div class="schedule-detail-title">
       <div class="booking-header">
-        <p>OUR Schedules</p>
+        <p>schedules details</p>
+        {% if user.is_authenticated %}
+        {% if request.user.is_staff %}
         <div class="booklink">
-          <a href=" {% url 'bookTicket' schedules.schedule_id %}">BOOK TICKET</a>
+          <a href=" {% url 'schedule-update' schedules.schedule_id %}" class="btn  m-2"> <i class="bi bi-pencil-square"></i>Edit</a>
         </div>
+        <div class='booklink'>
+          <a href="{% url 'schedule-delete' schedules.schedule_id%}" class="btn  m-2"><i class="bi bi-trash"></i>Delete</a>
+        </div>
+        {% endif %}
+        {% else %}
+        {% endif %}
       </div>
     </div>
       
@@ -61,25 +87,6 @@
       </div>
       <div class="searchcardbox">
           <div class="searchcard">
-            <h6>Departing time</h6>
-            <div class="card-text">
-              <label for="departing-time">{{schedules.departing_time}}</label>
-            </div>
-          </div>
-          <div class="searchcard">
-            <h6>Duration</h6>
-            <div class="card-text">
-              <label for="duration">1h 45min</label>
-            </div>
-          </div>
-          <div class="searchcard">
-            <h6>Estimated arrival time</h6>
-            <div class="card-text">
-              <label for="arriving_time">{{schedules.estimated_arrival_time}}</label>
-            </div>
-            
-          </div>
-          <div class="searchcard">
             <h6>Schedule</h6>
             <div class="card-text">
               <label for="">{{schedules.starting_point}} - {{schedules.destination}}</label>
@@ -108,12 +115,16 @@
           <div class="searchcard">
             <h6>Seats Available</h6>
             <div class="card-text">
-              <label for="arriving_time">{{schedules.available}}</label>
+              <label for="arriving_time">{{schedules.availableseats}}</label>
             </div>
             
           </div>
         </div>
+        <div class="booklink">
+          <a href=" {% url 'bookTicket' schedules.schedule_id %}">BOOK TICKET</a>
+        </div>
       </div>
     </div>
   </div>
+</div>
 {% endblock %}

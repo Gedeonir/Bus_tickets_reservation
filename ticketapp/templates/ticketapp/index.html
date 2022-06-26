@@ -1,7 +1,7 @@
 {% extends 'ticketapp/base.html' %}
 {% block body %}
 <div class="banner">
-    <p class="error-text">{{error}}</p>
+    
     <form action="{% url 'searchbus' %}" method="post">
         {% csrf_token %}
         <div class="input-group">
@@ -102,7 +102,7 @@
                 <i class="bi bi-geo-alt"></i>
                 <h2>eac</h2>
             </div>
-            {% if popular_eac_trips %}
+            {% if popular_eac_trip %}
             {% for trip in popular_eac_trips %}
            
             <div class="trip">
