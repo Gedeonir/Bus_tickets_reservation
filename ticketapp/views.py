@@ -65,9 +65,10 @@ from django.urls import reverse_lazy
 
 
 class scheduleCreate(CreateView):
-    
     model = schedules
-    fields = '__all__'
+    fields = ['starting_point',"destination","departing_time","estimated_arrival_time","schedule_date","bus","driver","price","availableseats"]
+        
+    
 
 class scheduleUpdate(UpdateView):
     model = schedules
